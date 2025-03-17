@@ -1,0 +1,617 @@
+{
+  "Abyssal Sire": {
+    "drops": {
+      "Bludgeon Piece": 460,
+      "Abyssal Dagger": 1090,
+      "Abyssal Whip": 2370,
+      "Abyssal Head": 2840,
+      "Jar": 2190,
+      "Pet": 5690
+    },
+    "image": "./bingo/assets/images/abyssal_sire.png"
+  },
+  "Alchemical Hydra": {
+    "drops": {
+      "Brimstone Ring Piece": 600,
+      "Hydra Tail": 1710,
+      "Hydra Leather": 1710,
+      "Hydra's Claw": 3340,
+      "Alchemical Hydra Heads": 850,
+      "Jar": 6670,
+      "Pet": 10000
+    },
+    "image": "./bingo/assets/images/alchemical_hydra.png"
+  },
+  "Amoxliatl": {
+    "drops": {
+      "Glacial Temotli": 140,
+      "Pendant of Ates": 40,
+      "Pet": 4290
+    },
+    "image": "./bingo/assets/images/amoxliatl.png"
+  },
+  "Araxxor": {
+    "drops": {
+      "Noxious Halberd Piece": 540,
+      "Araxyte Head": 680,
+      "Araxyte Fang": 1620,
+      "Jar": 4050,
+      "Pet": 8110
+    },
+    "image": "./bingo/assets/images/araxxor.png"
+  },
+  "Artio": {
+    "drops": {
+      "Claws of Callisto": 1030,
+      "Dragon Pickaxe": 600,
+      "Dragon 2h": 600,
+      "Voidwaker Hilt": 1520,
+      "Tyrannical Ring": 1190,
+      "Pet": 4670
+    },
+    "image": "./bingo/assets/images/artio.png"
+  },
+  "Barrows Chests": {
+    "drops": {
+      "Any Unique": 270
+    },
+    "image": "./bingo/assets/images/barrows_chests.png"
+  },
+  "Callisto": {
+    "drops": {
+      "Claws of Callisto": 230,
+      "Dragon Pickaxe": 300,
+      "Dragon 2h": 300,
+      "Voidwaker Hilt": 420,
+      "Tyrannical Ring": 600,
+      "Pet": 1760
+    },
+    "image": "./bingo/assets/images/callisto.png"
+  },
+  "Calvar'ion": {
+    "drops": {
+      "Skull of Vet'ion": 1120,
+      "Dragon 2H Sword": 650,
+      "Dragon Pickaxe": 650,
+      "Voidwaker Blade": 1660,
+      "Ring of the Gods": 1300,
+      "Pet": 5090
+    },
+    "image": "./bingo/assets/images/calvarion.png"
+  },
+  "Cerberus": {
+    "drops": {
+      "Primordial Crystal": 790,
+      "Pegasian Crystal": 790,
+      "Eternal Crystal": 790,
+      "Smouldering Stone": 790,
+      "Jar": 3080,
+      "Pet": 4620
+    },
+    "image": "./bingo/assets/images/cerberus.png"
+  },
+  "Chambers of Xeric": {
+    "drops": {
+      "Dexterous Prayer Scroll": 2130,
+      "Arcane Prayer Scroll": 2130,
+      "Twisted Buckler": 10660,
+      "Dragon Hunter Crossbow": 10660,
+      "Dinh's Bulwark": 14210,
+      "Ancestral Hat": 14210,
+      "Ancestral Robe Top": 14210,
+      "Ancestral Robe Bottom": 14210,
+      "Dragon Claws": 14210,
+      "Elder Maul": 21320,
+      "Kodai Insignia": 21320,
+      "Twisted Bow": 21320,
+      "Onyx": 12860,
+      "Pet": 32750
+    },
+    "image": "./bingo/assets/images/chambers_of_xeric.png"
+  },
+  "Chambers of Xeric (CM)": {
+    "drops": {
+      "Dexterous Prayer Scroll": 1730,
+      "Arcane Prayer Scroll": 1730,
+      "Twisted Buckler": 8630,
+      "Dragon Hunter Crossbow": 8630,
+      "Dinh's Bulwark": 11500,
+      "Ancestral Hat": 11500,
+      "Ancestral Robe Top": 11500,
+      "Ancestral Robe Bottom": 11500,
+      "Dragon Claws": 11500,
+      "Elder Maul": 17250,
+      "Kodai Insignia": 17250,
+      "Twisted Bow": 17250,
+      "Onyx": 12860,
+      "Twisted Kit": 2500,
+      "Metamorphic Dust": 13330,
+      "Pet": 26500
+    },
+    "image": "./bingo/assets/images/chambers_of_xeric_cm.png"
+  },
+  "Chambers of Xeric (Scaled)": {
+    "drops": {
+      "Dexterous Prayer Scroll": 1065,
+      "Arcane Prayer Scroll": 1065,
+      "Twisted Buckler": 5330,
+      "Dragon Hunter Crossbow": 5330,
+      "Dinh's Bulwark": 7105,
+      "Ancestral Hat": 7105,
+      "Ancestral Robe Top": 7105,
+      "Ancestral Robe Bottom": 7105,
+      "Dragon Claws": 7105,
+      "Elder Maul": 10660,
+      "Kodai Insignia": 10660,
+      "Twisted Bow": 10660,
+      "Onyx": 12860,
+      "Pet": 16375
+    },
+    "image": "./bingo/assets/images/chambers_of_xeric_scaled.png"
+  },
+  "Chaos Elemental": {
+    "drops": {
+      "Dragon 2H Sword": 50,
+      "Dragon Pickaxe": 210,
+      "Pet": 250
+    },
+    "image": "./bingo/assets/images/chaos_elemental.png"
+  },
+  "Chaos Fanatic": {
+    "drops": {
+      "Odium Shard 1": 270,
+      "Malediction Shard 1": 270,
+      "Pet": 1000
+    },
+    "image": "./bingo/assets/images/chaos_fanatic.png"
+  },
+  "Commander Zilyana": {
+    "drops": {
+      "Saradomin Sword": 220,
+      "Saradomin's Light": 440,
+      "Armadyl Crossbow": 880,
+      "Saradomin Hilt": 880,
+      "Any Godsword Shard": 1310,
+      "Pet": 8620
+    },
+    "image": "./bingo/assets/images/commander_zilyana.png"
+  },
+  "Corporeal Beast": {
+    "drops": {
+      "Spirit Shield": 110,
+      "Holy Elixir": 280,
+      "Spectral Sigil": 2280,
+      "Arcane Sigil": 2280,
+      "Elysian Sigil": 6825,
+      "Jar": 1670,
+      "Pet": 8330
+    },
+    "image": "./bingo/assets/images/corporeal_beast.png"
+  },
+  "Crazy Archaeologist": {
+    "drops": {
+      "Odium Shard 2": 340,
+      "Malediction Shard 2": 340,
+      "Fedora": 170
+    },
+    "image": "./bingo/assets/images/crazy_archaeologist.png"
+  },
+  "Dagannoth Kings": {
+    "drops": {
+      "Warrior Ring": 120,
+      "Berserker Ring": 120,
+      "Archers Ring": 120,
+      "Seers Ring": 120,
+      "Dragon Axe": 120,
+      "Seercull": 120,
+      "Mud Battlestaff": 120,
+      "Pet": 4760
+    },
+    "image": "./bingo/assets/images/dagannoth_kings.png"
+  },
+  "Demonic Gorillas": {
+    "drops": {
+      "Zenyte": 480,
+      "Ballista Limbs": 800,
+      "Ballista Spring": 800,
+      "Light Frame": 1210,
+      "Heavy Frame": 2420,
+      "Monkey Tail": 2420
+    },
+    "image": "./bingo/assets/images/demonic_gorillas.png"
+  },
+  "Duke Sucellus": {
+    "drops": {
+      "Awakener's Orb": 160,
+      "Chromium Ingot": 800,
+      "Magus Vestige": 2400,
+      "Eye of the Duke": 2400,
+      "Virtus Mask": 7200,
+      "Virtus Robe Top": 7200,
+      "Virtus Robe Bottom": 7200,
+      "Pet": 8330
+    },
+    "image": "./bingo/assets/images/duke_sucellus.png"
+  },
+  "Fortis Colosseum": {
+    "drops": {
+      "Echo Crystal": 420,
+      "Sunfire Fanatic Helm": 960,
+      "Sunfire Fanatic Cuirass": 960,
+      "Sunfire Fanatic Chausses": 960,
+      "Tonalztics of Ralos": 3330,
+      "Uncut Onyx": 1750,
+      "Pet": 8000
+    },
+    "image": "./bingo/assets/images/fortis_colosseum.png"
+  },
+  "General Graardor": {
+    "drops": {
+      "Bandos Chestplate": 660,
+      "Bandos Tassets": 660,
+      "Bandos Boots": 660,
+      "Bandos Hilt": 880,
+      "Any Godsword Shard": 1310,
+      "Pet": 8620
+    },
+    "image": "./bingo/assets/images/general_graardor.png"
+  },
+  "Giant Mole": {
+    "drops": {
+      "Pet": 2400
+    },
+    "image": "./bingo/assets/images/giant_mole.png"
+  },
+  "Grotesque Guardians": {
+    "drops": {
+      "Granite Maul": 340,
+      "Granite Gloves": 680,
+      "Granite Ring": 680,
+      "Granite Hammer": 1010,
+      "Black Tourmaline Core": 1350,
+      "Jar": 13510,
+      "Pet": 8110
+    },
+    "image": "./bingo/assets/images/grotesque_guardians.png"
+  },
+  "K'ril Tsutsaroth": {
+    "drops": {
+      "Zamorakian Spear": 200,
+      "Steam Battlestaff": 200,
+      "Staff of the Dead": 780,
+      "Zamorak Hilt": 780,
+      "Any Godsword Shard": 1170,
+      "Pet": 7690
+    },
+    "image": "./bingo/assets/images/kril_tsutsaroth.png"
+  },
+  "Kalphite Queen": {
+    "drops": {
+      "KQ Head": 230,
+      "Dragon Chainbody": 230,
+      "Dragon 2H Sword": 470,
+      "Dragon Pickaxe": 730,
+      "Jar": 3640,
+      "Pet": 5450
+    },
+    "image": "./bingo/assets/images/kalphite_queen.png"
+  },
+  "King Black Dragon": {
+    "drops": {
+      "KBD Heads": 100,
+      "Dragon Pickaxe": 770,
+      "Draconic Visage": 3850,
+      "Pet": 2310
+    },
+    "image": "./bingo/assets/images/king_black_dragon.png"
+  },
+  "Kraken": {
+    "drops": {
+      "Kraken Tentacle": 400,
+      "Trident of the Seas": 510,
+      "Jar": 1000,
+      "Pet": 3000
+    },
+    "image": "./bingo/assets/images/kraken.png"
+  },
+  "Kree'arra": {
+    "drops": {
+      "Armadyl Helmet": 950,
+      "Armadyl Chestplate": 950,
+      "Armadyl Chainskirt": 950,
+      "Armadyl Hilt": 1270,
+      "Any Godsword Shard": 1910,
+      "Pet": 12500
+    },
+    "image": "./bingo/assets/images/kree_arra.png"
+  },
+  "Moons of Peril": {
+    "drops": {
+      "Any Unique": 410
+    },
+    "image": "./bingo/assets/images/moons_of_peril.png"
+  },
+  "Nex": {
+    "drops": {
+      "Zaryte Vambraces": 730,
+      "Nihil Horn": 1100,
+      "Torva Full Helm": 1100,
+      "Torva Platebody": 1100,
+      "Torva Platelegs": 1100,
+      "Ancient Hilt": 2200,
+      "Pet": 2130
+    },
+    "image": "./bingo/assets/images/nex.png"
+  },
+  "Phantom Muspah": {
+    "drops": {
+      "Ancient Icon": 190,
+      "Venator Shard": 380,
+      "Pet": 9620
+    },
+    "image": "./bingo/assets/images/phantom_muspah.png"
+  },
+  "Phosani's Nightmare": {
+    "drops": {
+      "Nightmare Staff": 7610,
+      "Inquisitor's Great Helm": 10000,
+      "Inquisitor's Hauberk": 10000,
+      "Inquisitor's Plateskirt": 10000,
+      "Inquisitor's Mace": 17860,
+      "Volatile Orb": 22860,
+      "Harmonised Orb": 22860,
+      "Eldritch Orb": 22860,
+      "Jar": 57140,
+      "Pet": 20000
+    },
+    "image": "./bingo/assets/images/phosanis_nightmare.png"
+  },
+  "Royal Titans": {
+    "drops": {
+      "Giantsoul Amulet": 30,
+      "Ice Element Staff Crown": 150,
+      "Fire Element Staff Crown": 150,
+      "Pet": 6000
+    },
+    "image": "./bingo/assets/images/royal_titans.png"
+  },
+  "Sarachnis": {
+    "drops": {
+      "Sarachnis Cudgel": 480,
+      "Jar": 2500,
+      "Pet": 3750
+    },
+    "image": "./bingo/assets/images/sarachnis.png"
+  },
+  "Scorpia": {
+    "drops": {
+      "Odium Shard 3": 200,
+      "Malediction Shard 3": 200,
+      "Dragon 2H Sword": 100,
+      "Pet": 1550
+    },
+    "image": "./bingo/assets/images/scorpia.png"
+  },
+  "Scurrius": {
+    "drops": {
+      "Scurrius' Spine": 40,
+      "Pet": 3530
+    },
+    "image": "./bingo/assets/images/scurrius.png"
+  },
+  "Spindel": {
+    "drops": {
+      "Fangs of Venenatis": 1120,
+      "Dragon 2H Sword": 650,
+      "Dragon Pickaxe": 650,
+      "Voidwaker Gem": 1660,
+      "Treasonous Ring": 1300,
+      "Pet": 5090
+    },
+    "image": "./bingo/assets/images/spindel.png"
+  },
+  "The Gauntlet": {
+    "drops": {
+      "Crystal Weapon Seed": 500,
+      "Crystal Armour Seed": 500,
+      "Enhanced Crystal Weapon Seed": 4000,
+      "Pet": 8000
+    },
+    "image": "./bingo/assets/images/the_gauntlet.png"
+  },
+  "The Hueycoatl": {
+    "drops": {
+      "Dragon Hunter Wand": 1040,
+      "Tome of Earth": 460,
+      "Hueycoatl Hide": 170,
+      "Pet": 2000
+    },
+    "image": "./bingo/assets/images/the_hueycoatl.png"
+  },
+  "The Leviathan": {
+    "drops": {
+      "Awakener's Orb": 180,
+      "Chromium Ingot": 850,
+      "Venator Vestige": 2560,
+      "Leviathan's Lure": 2560,
+      "Virtus Mask": 7680,
+      "Virtus Robe Top": 7680,
+      "Virtus Robe Bottom": 7680,
+      "Pet": 8330
+    },
+    "image": "./bingo/assets/images/the_leviathan.png"
+  },
+  "The Nightmare": {
+    "drops": {
+      "Nightmare Staff": 2140,
+      "Inquisitor's Great Helm": 3000,
+      "Inquisitor's Hauberk": 3000,
+      "Inquisitor's Plateskirt": 3000,
+      "Inquisitor's Mace": 5360,
+      "Volatile Orb": 6860,
+      "Harmonised Orb": 6860,
+      "Eldritch Orb": 6860,
+      "Jar": 13570,
+      "Pet": 5710
+    },
+    "image": "./bingo/assets/images/phosanis_nightmare.png"
+  },
+  "The Whisperer": {
+    "drops": {
+      "Awakener's Orb": 160,
+      "Chromium Ingot": 810,
+      "Bellator Vestige": 2430,
+      "Siren's Staff": 2430,
+      "Virtus Mask": 7310,
+      "Virtus Robe Top": 7310,
+      "Virtus Robe Bottom": 7310,
+      "Pet": 9520
+    },
+    "image": "./bingo/assets/images/the_whisperer.png"
+  },
+  "Theatre of Blood": {
+    "drops": {
+      "Avernic Defender Hilt": 2700,
+      "Ghrazi Rapier": 10810,
+      "Sanguinesti Staff": 10810,
+      "Justiciar Faceguard": 10810,
+      "Justiciar Chestguard": 10810,
+      "Justiciar Legguards": 10810,
+      "Scythe of Vitur": 21610,
+      "Pet": 20310
+    },
+    "image": "./bingo/assets/images/theatre_of_blood.png"
+  },
+  "Theatre of Blood (HMT)": {
+    "drops": {
+      "Avernic Defender Hilt": 2640,
+      "Ghrazi Rapier": 9240,
+      "Sanguinesti Staff": 9240,
+      "Justiciar Faceguard": 9240,
+      "Justiciar Chestguard": 9240,
+      "Justiciar Legguards": 9240,
+      "Scythe of Vitur": 18480,
+      "Holy Ornament Kit": 3330,
+      "Sanguine Ornament Kit": 5000,
+      "Sanguine Dust": 9170,
+      "Pet": 16670
+    },
+    "image": "./bingo/assets/images/theatre_of_blood_hmt.png"
+  },
+  "Thermonuclear Smoke Devil": {
+    "drops": {
+      "Occult Necklace": 230,
+      "Smoke Battlestaff": 340,
+      "Dragon Chainbody": 1330,
+      "Jar": 1330,
+      "Pet": 2000
+    },
+    "image": "./bingo/assets/images/thermonuclear_smoke_devil.png"
+  },
+  "Tombs of Amascut": {
+    "drops": {
+      "Osmumten's Fang": 3100,
+      "Lightbearer": 3100,
+      "Elidinis' Ward": 7240,
+      "Masori Mask": 10860,
+      "Masori Body": 10860,
+      "Masori Chaps": 10860,
+      "Tumeken's Shadow": 21720,
+      "Pet": 28800
+    },
+    "image": "./bingo/assets/images/tombs_of_amascut.png"
+  },
+  "Tombs of Amascut (Expert)": {
+    "drops": {
+      "Osmumten's Fang": 1270,
+      "Lightbearer": 1270,
+      "Elidinis' Ward": 2950,
+      "Masori Mask": 4430,
+      "Masori Body": 4430,
+      "Masori Chaps": 4430,
+      "Tumeken's Shadow": 8860,
+      "Pet": 10340
+    },
+    "image": "./bingo/assets/images/tombs_of_amascut_expert.png"
+  },
+  "Tormented Demons": {
+    "drops": {
+      "Burning Claw": 910,
+      "Tormented Synapse": 910
+    },
+    "image": "./bingo/assets/images/tormented_demons.png"
+  },
+  "Vardorvis": {
+    "drops": {
+      "Awakener's Orb": 220,
+      "Chromium Ingot": 980,
+      "Ultor Vestige": 2940,
+      "Executioner's Axe Head": 2940,
+      "Virtus Mask": 8820,
+      "Virtus Robe Top": 8820,
+      "Virtus Robe Bottom": 8820,
+      "Pet": 8110
+    },
+    "image": "./bingo/assets/images/vardorvis.png"
+  },
+  "Venenatis": {
+    "drops": {
+      "Fangs of Venenatis": 490,
+      "Dragon 2H Sword": 640,
+      "Dragon Pickaxe": 640,
+      "Voidwaker Gem": 900,
+      "Treasonous Ring": 1280,
+      "Pet": 3750
+    },
+    "image": "./bingo/assets/images/venenatis.png"
+  },
+  "Vet'ion": {
+    "drops": {
+      "Skull of Vet'ion": 390,
+      "Dragon 2H Sword": 510,
+      "Dragon Pickaxe": 510,
+      "Voidwaker Blade": 720,
+      "Ring of the Gods": 1020,
+      "Pet": 3000
+    },
+    "image": "./bingo/assets/images/vetion.png"
+  },
+  "Vorkath": {
+    "drops": {
+      "Vorkath Head": 150,
+      "Dragonbone Necklace": 2940,
+      "Draconic Visage": 14700,
+      "Skeletal Visage": 14700,
+      "Jar": 8820,
+      "Pet": 8820
+    },
+    "image": "./bingo/assets/images/vorkath.png"
+  },
+  "Vyrewatch Sentinels": {
+    "drops": {
+      "Blood Shard": 1670
+    },
+    "image": "./bingo/assets/images/vyrewatch_sentinels.png"
+  },
+  "Zalcano": {
+    "drops": {
+      "Crystal Tool Seed": 1580,
+      "Zalcano Shard": 5770,
+      "Pet": 17310
+    },
+    "image": "./bingo/assets/images/zalcano.png"
+  },
+  "Zulrah": {
+    "drops": {
+      "Tanzanite Fang": 1160,
+      "Magic Fang": 1160,
+      "Serpentine Visage": 1160,
+      "Uncut Onyx": 1160,
+      "Tanzanite Mutagen": 14890,
+      "Magma Mutagen": 14890,
+      "Jar": 6820,
+      "Pet": 9090
+    },
+    "image": "./bingo/assets/images/zulrah.png"
+  }
+}
