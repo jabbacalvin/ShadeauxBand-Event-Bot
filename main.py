@@ -8,6 +8,7 @@ import re
 import uuid
 import textwrap
 import matplotlib.pyplot as plt
+import datetime
 
 import discord
 from discord import app_commands
@@ -1605,7 +1606,7 @@ logging.basicConfig(filename='bot_logs.log', level=logging.INFO,
 @app_commands.describe(
   event_name="The name of the event (make it unique).",
   event_type="The type of the event.",
-  event_date="The date of the event (YYYY-MM-DD).",
+  event_date="The date of the event (MM/DD/YYYY).",
   event_time="The time of the event (12-hour format, HH:MM AM/PM CST).",
 )
 @app_commands.autocomplete(event_type=event_type_autocomplete)
@@ -1615,6 +1616,13 @@ async def admin_event_create(interaction: discord.Interaction, event_name: str, 
 
   if event_name in client.events:
     await interaction.response.send_message("Event already exists.", ephemeral=True)
+    return
+
+  try:
+    # Parse the date in MM/DD/YYYY format
+    datetime.strptime(event_date, "%m/%d/%Y")
+  except ValueError:
+    await interaction.response.send_message("Invalid date format. Please use MM/DD/YYYY.", ephemeral=True)
     return
 
   game_uuid = str(uuid.uuid4())
