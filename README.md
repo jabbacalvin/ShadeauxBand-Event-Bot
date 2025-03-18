@@ -286,6 +286,28 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - If a boss has an associated image, it will be included as a thumbnail.
     - If a boss has more than 25 drops, a warning will be added to the embed, and some drops may not be shown.
     - If no boss drops are found, a message indicating this will be sent.
+- `/admin_boss_drop_edit`: Admin: Edit boss drop points.
+  - Usage: `/admin_boss_drop_edit boss_name: <boss_name> drop_name: <drop_name> points: <points>`
+  - Note:
+    - This command allows administrators to edit the point value of a specific boss drop.
+    - It requires the boss name, drop name, and the new point value as input.
+    - It will display the previous point value and the new point value in the confirmation message.
+    - It will return an error if the boss or drop does not exist.
+- `/admin_boss_drop_add`: Admin: Add a new boss drop.
+  - Usage: `/admin_boss_drop_add boss_name: <boss_name> drop_name: <drop_name> points: <points>`
+  - Note:
+    - This command allows administrators to add a new drop to a boss or update the points of an existing drop.
+    - It requires the boss name, drop name, and the point value as input.
+    - If the drop already exists, it will update the points and display the previous and new point values.
+    - If the drop is new, it will add the drop and display a confirmation message.
+    - It will return an error if the boss does not exist.
+- `/admin_boss_drop_remove`: Admin: Remove a boss drop.
+  - Usage: `/admin_boss_drop_remove boss_name: <boss_name> drop_name: <drop_name>`
+  - Note:
+    - This command allows administrators to remove a specific drop from a boss.
+    - It requires the boss name and drop name as input.
+    - It will prompt the user for confirmation before removing the drop.
+    - It will return an error if the boss or drop does not exist.
 - `/admin_extravaganza_drop`: Admin: Help a member add a drop to their team.
   - Usage: `/admin_extravaganza_drop event_name:MyExtravaganza team_name:TeamName team_member_name:@User boss_name:BossName drop_name:DropName`
   - Note:

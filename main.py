@@ -78,6 +78,11 @@ class MyClient(commands.Bot):
     else:
       return {}
 
+  def save_drops(self):
+    with open(DROPS_FILE, 'w') as f:
+      json.dump(self.drops, f, indent=2)
+
+
   def load_events(self):
     if os.path.exists(EVENT_FILE):
       with open(EVENT_FILE, 'r') as f:
@@ -2072,6 +2077,113 @@ async def boss_drops_all(interaction: discord.Interaction):
             await interaction.response.send_message(embeds=embeds, files=files)
         else:
             await interaction.followup.send(embeds=embeds, files=files)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@client.tree.command(name="admin_boss_drop_edit", description="Admin: Edit boss drop points.")
+@app_commands.describe(boss_name="The name of the boss.", drop_name="The name of the drop.", points="The new point value.")
+@app_commands.autocomplete(boss_name=boss_autocomplete, drop_name=drop_autocomplete)
+@app_commands.default_permissions(administrator=True)
+async def admin_boss_drop_edit(interaction: discord.Interaction, boss_name: str, drop_name: str, points: int):
+    logging.info(f"Admin {interaction.user.name} used /admin_boss_drop_edit to edit {boss_name} {drop_name} to {points} points.")
+
+    if boss_name not in client.drops:
+        await interaction.response.send_message("Boss does not exist.", ephemeral=True)
+        return
+
+    if "drops" not in client.drops[boss_name]:
+        await interaction.response.send_message("This boss has no drops defined.", ephemeral=True)
+        return
+
+    if drop_name not in client.drops[boss_name]["drops"]:
+        await interaction.response.send_message("Drop does not exist for this boss.", ephemeral=True)
+        return
+
+    previous_points = client.drops[boss_name]["drops"][drop_name]
+    client.drops[boss_name]["drops"][drop_name] = points
+    client.save_drops()
+
+    await interaction.response.send_message(
+        f"Updated {drop_name} for {boss_name} from {previous_points} to {points} points.",
+        ephemeral=True,
+    )
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@client.tree.command(name="admin_boss_drop_add", description="Admin: Add a new boss drop.")
+@app_commands.describe(boss_name="The name of the boss.", drop_name="The name of the drop.", points="The point value.")
+@app_commands.autocomplete(boss_name=boss_autocomplete)
+@app_commands.default_permissions(administrator=True)
+async def admin_boss_drop_add(interaction: discord.Interaction, boss_name: str, drop_name: str, points: int):
+    logging.info(f"Admin {interaction.user.name} used /admin_boss_drop_add to add {drop_name} to {boss_name} with {points} points.")
+
+    if boss_name not in client.drops:
+        await interaction.response.send_message("Boss does not exist.", ephemeral=True)
+        return
+
+    if "drops" not in client.drops[boss_name]:
+        client.drops[boss_name]["drops"] = {}
+
+    if drop_name in client.drops[boss_name]["drops"]:
+        previous_points = client.drops[boss_name]["drops"][drop_name]
+        client.drops[boss_name]["drops"][drop_name] = points
+        client.save_drops()
+        await interaction.response.send_message(
+            f"Updated {drop_name} for {boss_name} from {previous_points} to {points} points.",
+            ephemeral=True,
+        )
+    else:
+        client.drops[boss_name]["drops"][drop_name] = points
+        client.save_drops()
+        await interaction.response.send_message(
+            f"Added {drop_name} to {boss_name} with {points} points.",
+            ephemeral=True,
+        )
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@client.tree.command(name="admin_boss_drop_remove", description="Admin: Remove a boss drop.")
+@app_commands.describe(boss_name="The name of the boss.", drop_name="The name of the drop.")
+@app_commands.autocomplete(boss_name=boss_autocomplete, drop_name=drop_autocomplete)
+@app_commands.default_permissions(administrator=True)
+async def admin_boss_drop_remove(interaction: discord.Interaction, boss_name: str, drop_name: str):
+    logging.info(f"Admin {interaction.user.name} used /admin_boss_drop_remove to remove {drop_name} from {boss_name}.")
+
+    if boss_name not in client.drops:
+        await interaction.response.send_message("Boss does not exist.", ephemeral=True)
+        return
+
+    if "drops" not in client.drops[boss_name] or drop_name not in client.drops[boss_name]["drops"]:
+        await interaction.response.send_message("Drop does not exist for this boss.", ephemeral=True)
+        return
+
+    confirm_button = discord.ui.Button(style=discord.ButtonStyle.danger, label="✅ Yes, Remove Drop")
+    cancel_button = discord.ui.Button(style=discord.ButtonStyle.secondary, label="❌ Cancel")
+
+    async def confirm_callback(interaction_button: discord.Interaction):
+        if interaction_button.user == interaction.user:
+            del client.drops[boss_name]["drops"][drop_name]
+            client.save_drops()
+            await interaction_button.response.send_message(f"Removed {drop_name} from {boss_name}.", ephemeral=True)
+            await interaction.edit_original_response(view=None)  # remove buttons
+        else:
+            await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
+
+    async def cancel_callback(interaction_button: discord.Interaction):
+        if interaction_button.user == interaction.user:
+            await interaction_button.response.send_message("Drop removal cancelled.", ephemeral=True)
+            await interaction.edit_original_response(view=None)  # remove buttons
+        else:
+            await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
+
+    confirm_button.callback = confirm_callback
+    cancel_button.callback = cancel_callback
+
+    view = discord.ui.View()
+    view.add_item(confirm_button)
+    view.add_item(cancel_button)
+
+    await interaction.response.send_message(f"Are you sure you want to remove {drop_name} from {boss_name}?", view=view, ephemeral=True)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 

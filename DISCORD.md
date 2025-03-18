@@ -95,6 +95,9 @@ To participate in an event as a free agent (someone not yet on a team), you'll u
 > - **Deleting Teams:** `/admin_team_delete event_name:MyEvent team_name:TeamName`
 > - **Changing Team Roles:** `/admin_team_role_change event_name:MyEvent member_ign:IGN1 new_role:leader`
 > - **Showing All Boss Drops:** `/admin_boss_drops_showall`
+> - **Admin Editing Boss Drop Points:** `/admin_boss_drop_edit boss_name:BossName drop_name:DropName points:NewPoints`
+> - **Admin Adding Boss Drop:** `/admin_boss_drop_add boss_name:BossName drop_name:DropName points:Points`
+> - **Admin Removing Boss Drop:** `/admin_boss_drop_remove boss_name:BossName drop_name:DropName`
 > - **Admin Adding Drops:** `/admin_extravaganza_drop event_name:MyExtravaganza team_name:TeamName team_member_name:@User boss_name:BossName drop_name:DropName`
 > - **Admin Removing Drops:** `/admin_extravaganza_drop_remove event_name:MyExtravaganza team_name:TeamName team_member_name:@User boss_name:BossName drop_name:DropName`
 > - **Generating Leaderboard/Graph:** `/admin_extravaganza_leaderboard event_name:MyExtravaganza`
