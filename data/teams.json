@@ -1,12 +1,12 @@
 {
   "TEST EXTRAVAGANZA": {
-    "TEAM TEST": {
-      "color": "#FF0000",
+    "TEST TEAM 2": {
+      "color": "#FFFFFF",
       "members": [
         {
           "role": "leader",
-          "discord_user": "smacksmackk",
-          "osrs_ign": "zPoop"
+          "discord_user": "titaniumbutter",
+          "osrs_ign": "OvO_Izzy"
         }
       ]
     }

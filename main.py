@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 load_dotenv()
 
-ADMINS = ["smacksmackk", "titaniumbutter", "dufwha", "iblametruth"]
+# ADMINS = ["smacksmackk", "titaniumbutter", "dufwha", "iblametruth"]
 
 DROPS_FILE = "./data/drops.json"
 EVENT_FILE = "./data/events.json"
@@ -176,9 +176,9 @@ class MyClient(commands.Bot):
         embeds = []
         if game_uuid and game_uuid in self.games:
             game_data = self.games[game_uuid]["game_data"]
-            team_drop_counts = game_data.get("team_drop_counts", {})
-            if team_drop_counts:
-                team_total_points = {team: data.get("total_points", 0) for team, data in team_drop_counts.items()}
+            teams_data = game_data.get("teams", {})
+            if teams_data:
+                team_total_points = {team: data.get("total_points", 0) for team, data in teams_data.items()}
                 sorted_teams = sorted(team_total_points.items(), key=lambda item: item[1], reverse=True)
                 for team, points in sorted_teams:
                     points_display = int(points) if isinstance(points, (int, float)) and points.is_integer() else points
@@ -201,9 +201,9 @@ class MyClient(commands.Bot):
         try:
             if game_uuid and game_uuid in self.games:
                 game_data = self.games[game_uuid]["game_data"]
-                team_drop_counts = game_data.get("team_drop_counts", {})
-                if team_drop_counts:
-                    team_total_points = {team: data.get("total_points", 0) for team, data in team_drop_counts.items()}
+                teams_data = game_data.get("teams", {})
+                if teams_data:
+                    team_total_points = {team: data.get("total_points", 0) for team, data in teams_data.items()}
                     sorted_teams_points = sorted(team_total_points.items(), key=lambda item: item[1])
                     teams = [item[0] for item in sorted_teams_points]
                     points = [item[1] for item in sorted_teams_points]
@@ -837,8 +837,8 @@ def process_drop_data(event_name: str, team_name: str, member_id: str, osrs_ign:
         return f"❌ Game ID '{game_id}' not found in games.json.", 0, 0, 0
 
     game_data = games_data[game_id]["game_data"]
-    team_drop_counts = game_data.setdefault("team_drop_counts", {})
-    team_data = team_drop_counts.setdefault(team_name, {"total_points": 0, "drops": {}})
+    teams_data = game_data.setdefault("teams", {})
+    team_data = teams_data.setdefault(team_name, {"total_points": 0, "drops": {}})
     boss_data = team_data["drops"].setdefault(boss_name, {})
     drop_data = boss_data.setdefault(drop_name, {"count": 0, "points": []})
 
@@ -878,8 +878,8 @@ def process_drop_removal(event_name: str, team_name: str, member_id: str, osrs_i
         return f"❌ Game ID '{game_id}' not found in games.json.", 0, 0, 0
 
     game_data = games_data[game_id]["game_data"]
-    team_drop_counts = game_data["team_drop_counts"]
-    team_data = team_drop_counts.get(team_name, {"total_points": 0, "drops": {}})
+    teams_data = game_data["teams"]
+    team_data = teams_data.get(team_name, {"total_points": 0, "drops": {}})
     boss_data = team_data["drops"].get(boss_name, {})
     drop_data = boss_data.get(drop_name, {"count": 0, "points": []})
 
@@ -917,7 +917,7 @@ def process_drop_removal(event_name: str, team_name: str, member_id: str, osrs_i
             if not boss_data:
                 del team_data["drops"][boss_name]
                 if not team_data["drops"]:
-                    del team_drop_counts[team_name]
+                    del teams_data[team_name]
 
         client.save_games()
 
@@ -1155,10 +1155,10 @@ async def admin_drop_remove_member_autocomplete(interaction: discord.Interaction
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or team_name not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or team_name not in game_data["teams"]:
         return []
 
-    team_data = game_data["team_drop_counts"][team_name]
+    team_data = game_data["teams"][team_name]
     member_ids = set()
 
     if "drops" in team_data:
@@ -1209,10 +1209,10 @@ async def drop_remove_member_autocomplete(interaction: discord.Interaction, curr
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or team_name not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or team_name not in game_data["teams"]:
         return []
 
-    team_data = game_data["team_drop_counts"][team_name]
+    team_data = game_data["teams"][team_name]
     member_ids = set()
 
     if "drops" in team_data:
@@ -1351,10 +1351,10 @@ async def teams_with_drops_autocomplete(interaction: discord.Interaction, curren
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data:
+    if "teams" not in game_data:
         return []
 
-    team_names_with_drops = list(game_data["team_drop_counts"].keys())
+    team_names_with_drops = list(game_data["teams"].keys())
 
     return [
         app_commands.Choice(name=name, value=name)
@@ -1402,10 +1402,10 @@ async def admin_team_boss_autocomplete(interaction: discord.Interaction, current
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or team_name not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or team_name not in game_data["teams"]:
         return []
 
-    team_data = game_data["team_drop_counts"][team_name]
+    team_data = game_data["teams"][team_name]
     boss_names = []
 
     if "drops" in team_data:
@@ -1449,13 +1449,13 @@ async def admin_team_drop_autocomplete(interaction: discord.Interaction, current
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or team_name not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or team_name not in game_data["teams"]:
         return []
 
-    if boss_name not in game_data["team_drop_counts"][team_name]["drops"]:
+    if boss_name not in game_data["teams"][team_name]["drops"]:
         return []
 
-    drop_names = list(game_data["team_drop_counts"][team_name]["drops"][boss_name].keys())
+    drop_names = list(game_data["teams"][team_name]["drops"][boss_name].keys())
 
     return [
         app_commands.Choice(name=name, value=name)
@@ -1495,10 +1495,10 @@ async def team_boss_autocomplete(interaction: discord.Interaction, current: str)
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or user_team not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or user_team not in game_data["teams"]:
         return []
 
-    team_data = game_data["team_drop_counts"][user_team]
+    team_data = game_data["teams"][user_team]
     boss_names = []
 
     if "drops" in team_data:
@@ -1551,13 +1551,13 @@ async def team_drop_autocomplete(interaction: discord.Interaction, current: str)
         return []
 
     game_data = games_data[game_id]["game_data"]
-    if "team_drop_counts" not in game_data or user_team not in game_data["team_drop_counts"]:
+    if "teams" not in game_data or user_team not in game_data["teams"]:
         return []
 
-    if boss_name not in game_data["team_drop_counts"][user_team]["drops"]:
+    if boss_name not in game_data["teams"][user_team]["drops"]:
         return []
 
-    drop_names = list(game_data["team_drop_counts"][user_team]["drops"][boss_name].keys())
+    drop_names = list(game_data["teams"][user_team]["drops"][boss_name].keys())
 
     return [
         app_commands.Choice(name=name, value=name)
@@ -1630,7 +1630,7 @@ async def admin_event_create(interaction: discord.Interaction, event_name: str, 
     game_data["board"] = generate_bingo_board(board_size, client.drops)
 
   elif event_type == "extravaganza":
-    game_data["team_drop_counts"] = {"total_points": 0, "drops": {}}
+    game_data["teams"] = {}
 
   client.games[game_uuid] = {"game_data": game_data}  # Create the game object in games.json
   client.save_games()
@@ -1962,29 +1962,47 @@ async def admin_team_delete(interaction: discord.Interaction, event_name: str, t
         await interaction.response.send_message("Team does not exist for this event.", ephemeral=True)
         return
 
+    # Fetch existing free agents for the event
+    existing_free_agents = client.free_agents.get(event_name, []).copy()
+
     # Move members to free agents
     if "members" in client.teams[event_name][team_name]:
-        if "free_agents" not in client.free_agents:
-            client.free_agents = {}
-        if event_name not in client.free_agents:
-            client.free_agents[event_name] = []
-
         for member in client.teams[event_name][team_name]["members"]:
-            if member not in client.free_agents[event_name]:
-                client.free_agents[event_name].append(member)
+            if "role" in member:
+                del member["role"]
+
+            # Check if a member with the same discord_user and osrs_ign exists
+            exists = False
+            for existing_member in existing_free_agents:
+                if existing_member["discord_user"] == member["discord_user"] and existing_member["osrs_ign"] == member["osrs_ign"]:
+                    exists = True
+                    break
+
+            if not exists:
+                existing_free_agents.append(member)
+
+        # Save the updated free agents list for the event
+        client.free_agents[event_name] = existing_free_agents
         client.save_free_agents()
 
     del client.teams[event_name][team_name]
     client.save_teams()
 
+    # Remove team data from games.json
+    game_uuid = client.events[event_name]["game_id"]
+    if game_uuid in client.games:
+        game_data = client.games[game_uuid]["game_data"]
+        if "teams" in game_data and team_name in game_data["teams"]:
+            del game_data["teams"][team_name]
+            client.save_games()
+
     # Remove pawn position if event is snakes_ladders
     if client.events[event_name]["type"] == "snakes_ladders":
-        game_uuid = client.events[event_name]["game_id"]
         if game_uuid in client.games:
             game_data = client.games[game_uuid]["game_data"]
             if "pawns" in game_data and team_name in game_data["pawns"]:
                 del game_data["pawns"][team_name]
-                client.save_games()  # Save changes to the game object.
+                client.save_games()
 
     embed = discord.Embed(
         title=f"Team '{team_name}' Deleted!",
@@ -2302,13 +2320,13 @@ async def admin_extravaganza_plyr_drops_rm(interaction: discord.Interaction, eve
         return
 
     game_data = client.games.get(game_uuid, {}).get("game_data", {})
-    team_drop_counts = game_data.get("team_drop_counts", {})
+    teams_data = game_data.get("teams", {})
 
-    if team_name not in team_drop_counts or "drops" not in team_drop_counts[team_name]:
+    if team_name not in teams_data or "drops" not in teams_data[team_name]:
         await interaction.response.send_message("No drops found for the team.", ephemeral=True)
         return
 
-    team_drops = team_drop_counts[team_name]["drops"]
+    team_drops = teams_data[team_name]["drops"]
     removed_points = 0
     drops_removed = 0
     removed_drops_list = []
@@ -2333,11 +2351,11 @@ async def admin_extravaganza_plyr_drops_rm(interaction: discord.Interaction, eve
         if not team_drops[boss]:
             del team_drops[boss]
 
-    team_drop_counts[team_name]["total_points"] -= removed_points
-    team_drop_counts["total_points"] -= removed_points
-    new_team_total_points = team_drop_counts[team_name]["total_points"]
+    teams_data[team_name]["total_points"] -= removed_points
+    teams_data["total_points"] -= removed_points
+    new_team_total_points = teams_data[team_name]["total_points"]
 
-    client.games[game_uuid]["game_data"]["team_drop_counts"] = team_drop_counts
+    client.games[game_uuid]["game_data"]["teams"] = teams_data
     client.save_games()
 
     team_color = client.teams[event_name][team_name].get("color", "#FFFFFF")
@@ -2394,8 +2412,8 @@ async def admin_extravaganza_reset_data(interaction: discord.Interaction, event_
                 return
 
             game_data = client.games.get(game_uuid, {}).get("game_data", {})
-            if "team_drop_counts" in game_data:
-                game_data["team_drop_counts"] = {}
+            if "teams" in game_data:
+                game_data["teams"] = {}
             client.save_games()
             await interaction_button.response.send_message(f"Data reset for event '{event_name}'.", ephemeral=True)
             await interaction.edit_original_response(view=None)  # remove buttons
@@ -2595,22 +2613,20 @@ async def unjoin_event(interaction: discord.Interaction, event_name: str):
 @app_commands.autocomplete(event_name=event_names_in_events_free_agents_autocomplete)
 async def event_free_agents_view(interaction: discord.Interaction, event_name: str):
     logging.info(f"User {interaction.user.name} used /event_free_agents_view to view free agents for {event_name}.")
-    is_authorized = False
 
-    if interaction.user.name in ADMINS:
-        is_authorized = True
-    else:
-        if event_name in client.teams:
-            event_teams = client.teams[event_name]
-            for team in event_teams.values():
-                for member in team["members"]:
-                    if member["role"] == "leader" and member["discord_user"] == interaction.user.name:
-                        is_authorized = True
-                        break
-                if is_authorized:
+    is_admin = interaction.user.guild_permissions.administrator
+    is_leader = False
+
+    if not is_admin and event_name in client.teams:
+        for team in client.teams[event_name].values():
+            for member in team["members"]:
+                if member["discord_user"] == interaction.user.name and member["role"] == "leader":
+                    is_leader = True
                     break
+            if is_leader:
+                break
 
-    if not is_authorized:
+    if not is_admin and not is_leader:
         await interaction.response.send_message(
             "You are not authorized to use this command.", ephemeral=True
         )
@@ -2640,22 +2656,22 @@ async def event_free_agents_view(interaction: discord.Interaction, event_name: s
 @app_commands.autocomplete(event_name=event_names_with_teams_autocomplete)
 async def event_teams_view(interaction: discord.Interaction, event_name: str):
     logging.info(f"User {interaction.user.name} used /event_teams_view to view teams for {event_name}.")
-    is_authorized = False
 
-    if interaction.user.name in ADMINS:
-        is_authorized = True
-    else:
-        if event_name in client.teams:
-            event_teams = client.teams[event_name]
-            for team in event_teams.values():
-                for member in team["members"]:
-                    if member["role"] == "leader" and member["discord_user"] == interaction.user.name:
-                        is_authorized = True
-                        break
-                if is_authorized:
+    # Check if the user is an admin or a team leader
+    is_admin = interaction.user.guild_permissions.administrator
+    is_leader = False
+
+    if not is_admin and event_name in client.teams:
+        event_teams = client.teams[event_name]
+        for team in event_teams.values():
+            for member in team["members"]:
+                if member["role"] == "leader" and member["discord_user"] == interaction.user.name:
+                    is_leader = True
                     break
+            if is_leader:
+                break
 
-    if not is_authorized:
+    if not is_admin and not is_leader:
         await interaction.response.send_message(
             "You are not authorized to use this command.", ephemeral=True
         )
@@ -2704,6 +2720,113 @@ async def event_teams_view(interaction: discord.Interaction, event_name: str):
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+@client.tree.command(name="team_edit", description="Edit a team's name and color in an event.")
+@app_commands.describe(
+    event_name="The name of the event.",
+    old_team_name="The current name of the team.",
+    new_team_name="The new name for the team.",
+    new_team_color="The new color for the team (e.g., #FF0000).",
+)
+@app_commands.autocomplete(event_name=event_name_autocomplete, old_team_name=teams_in_event_autocomplete)
+async def team_edit(interaction: discord.Interaction, event_name: str, old_team_name: str, new_team_name: str, new_team_color: str):
+    logging.info(f"{interaction.user.name} used /admin_team_edit to edit team {old_team_name} to {new_team_name} with color {new_team_color} in {event_name}.")
+
+    if event_name not in client.events:
+        await interaction.response.send_message("Event does not exist.", ephemeral=True)
+        return
+
+    if event_name not in client.teams or old_team_name not in client.teams[event_name]:
+        await interaction.response.send_message("Team does not exist for this event.", ephemeral=True)
+        return
+
+    if new_team_name in client.teams[event_name] and new_team_name != old_team_name:
+        await interaction.response.send_message("A team with the new name already exists in this event.", ephemeral=True)
+        return
+
+    # Check if the user is an admin or team leader
+    is_admin = interaction.user.guild_permissions.administrator
+    is_leader = False
+
+    if "members" in client.teams[event_name][old_team_name]:
+        for member in client.teams[event_name][old_team_name]["members"]:
+            if member.get("discord_user") == interaction.user.name and member.get("role") == "leader":
+                is_leader = True
+                break
+
+    if not is_admin and not is_leader:
+        await interaction.response.send_message("You do not have permission to edit this team.", ephemeral=True)
+        return
+
+    # Update team name and color in teams.json
+    team_data = client.teams[event_name].pop(old_team_name)
+    old_team_color = team_data.get("color")
+    team_data["color"] = new_team_color
+    client.teams[event_name][new_team_name] = team_data
+    client.save_teams()
+
+    # Update team name in games.json
+    game_uuid = client.events[event_name]["game_id"]
+    if game_uuid in client.games:
+        game_data = client.games[game_uuid]["game_data"]
+        if "teams" in game_data and old_team_name in game_data["teams"]:
+            game_data["teams"][new_team_name] = game_data["teams"].pop(old_team_name)
+            client.save_games()
+
+    def create_color_image_combined(color_hex1, color_hex2):
+        try:
+            color_int1 = int(color_hex1.lstrip('#'), 16)
+            r1 = (color_int1 >> 16) & 0xFF
+            g1 = (color_int1 >> 8) & 0xFF
+            b1 = color_int1 & 0xFF
+
+            color_int2 = int(color_hex2.lstrip('#'), 16)
+            r2 = (color_int2 >> 16) & 0xFF
+            g2 = (color_int2 >> 8) & 0xFF
+            b2 = color_int2 & 0xFF
+
+            img = Image.new('RGBA', (230, 60), (0, 0, 0, 0)) #Fully transparent image
+            draw = ImageDraw.Draw(img)
+            draw.rectangle((5, 5, 55, 55), fill=(r1, g1, b1, 255)) #Fill with color, full opacity
+            draw.rectangle((55, 5, 175, 55), fill=(0, 0, 0, 0))
+            draw.rectangle((175, 5, 225, 55), fill=(r2, g2, b2, 255)) #Fill with color, full opacity
+
+            with io.BytesIO() as image_binary:
+                img.save(image_binary, 'PNG')
+                image_binary.seek(0)
+                return discord.File(fp=image_binary, filename='colors.png')
+        except ValueError:
+            return None
+
+    combined_color_file = create_color_image_combined(old_team_color, new_team_color)
+
+    try:
+        color_int = int(new_team_color.lstrip('#'), 16)
+        embed_color = discord.Color(color_int)
+    except ValueError:
+        embed_color = discord.Color.blurple()
+
+    embed = discord.Embed(
+        title=f"Team '{old_team_name}' Renamed",
+        description=f"Team '{old_team_name}' has been renamed to '{new_team_name}'.",
+        color=embed_color
+    )
+
+    embed.add_field(name="Old Color", value=f"`{old_team_color}`", inline=True)
+    embed.add_field(name="New Color", value=f"`{new_team_color}`", inline=True)
+
+    if combined_color_file:
+        embed.set_image(url="attachment://colors.png")
+
+    embed.set_footer(text=f"Event: {event_name}")
+
+    files = []
+    if combined_color_file:
+        files.append(combined_color_file)
+
+    await interaction.response.send_message(embed=embed, files=files, ephemeral=True)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
 @client.tree.command(name="team_assign", description="Add a member to a team (team leaders and admins).")
 @app_commands.describe(event_name="The name of the event.", team_name="The name of the team.",
                        free_agent_osrs_ign="The OSRS in-game name of the free agent.", team_role="The role of the free agent (leader or member).")
@@ -2717,7 +2840,7 @@ async def event_teams_view(interaction: discord.Interaction, event_name: str):
 async def team_assign(interaction: discord.Interaction, event_name: str, team_name: str,
                       free_agent_osrs_ign: str, team_role: str):
   # Check if the user is an admin or a team leader
-  is_admin = interaction.user.name in ADMINS
+  is_admin = interaction.user.guild_permissions.administrator
   is_leader = False
 
   if not is_admin and event_name in client.teams and team_name in client.teams[event_name]:
@@ -2774,7 +2897,7 @@ async def team_assign(interaction: discord.Interaction, event_name: str, team_na
 @app_commands.autocomplete(member_ign=team_member_ign_autocomplete, event_name=team_event_autocomplete_for_member_ign)
 async def team_unassign(interaction: discord.Interaction, member_ign: str, event_name: str):
     # Check if the user is an admin or a team leader
-    is_admin = interaction.user.name in ADMINS
+    is_admin = interaction.user.guild_permissions.administrator
     is_leader = False
 
     if not is_admin and event_name in client.teams:
@@ -3269,7 +3392,7 @@ async def extravaganza_drop(interaction: discord.Interaction, event_name: str, t
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-@client.tree.command(name="extravaganza_drop_remove", description="Remove a boss drop.")
+@client.tree.command(name="extravaganza_drop_remove", description="Remove a drop from a team member.")
 @app_commands.autocomplete(event_name=extravaganza_event_autocomplete, team_member_name=drop_remove_member_autocomplete, boss_name=team_boss_autocomplete, drop_name=team_drop_autocomplete)
 async def extravaganza_drop_remove(interaction: discord.Interaction, event_name: str, team_member_name: str, boss_name: str, drop_name: str):
     logging.info(f"User {interaction.user.name} used /extravaganza_drop_remove to remove drop {drop_name} for {boss_name} in {event_name}.")
@@ -3334,9 +3457,9 @@ async def extravaganza_player_points_all(interaction: discord.Interaction, event
         return await interaction.response.send_message(f"❌ Game data for '{event_name}' not found.", ephemeral=True)
 
     game_data = games_data[game_id]["game_data"]
-    team_drop_counts = game_data.get("team_drop_counts", {})
+    teams_data = game_data.get("teams", {})
 
-    if not team_drop_counts:
+    if not teams_data:
         return await interaction.response.send_message(f"No team points data found for '{event_name}'.", ephemeral=True)
 
     embeds = []
@@ -3348,7 +3471,7 @@ async def extravaganza_player_points_all(interaction: discord.Interaction, event
     )
     embeds.append(title_embed)
 
-    for team_name, team_data in team_drop_counts.items():
+    for team_name, team_data in teams_data.items():
         player_points = {}
         if "drops" in team_data:
             for boss_drops in team_data["drops"].values():
@@ -3410,15 +3533,15 @@ async def extravaganza_team_stats_all(interaction: discord.Interaction, event_na
         return await interaction.response.send_message("No game data found.", ephemeral=True)
 
     game_data = games_data[game_id]["game_data"]
-    team_drop_counts = game_data.get("team_drop_counts", {})
+    teams_data = game_data.get("teams", {})
 
-    if not team_drop_counts:
+    if not teams_data:
         return await interaction.response.send_message("No team stats available yet.", ephemeral=True)
 
     embeds = []
     team_total_points = {}
 
-    for team_name, team_data in team_drop_counts.items():
+    for team_name, team_data in teams_data.items():
         team_color = None
         if event_name in teams_data and team_name in teams_data[event_name]:
             team_color_hex = teams_data[event_name][team_name]["color"]
@@ -3525,9 +3648,9 @@ async def extravaganza_team_stats(interaction: discord.Interaction, event_name: 
         return await interaction.response.send_message("No game data found.", ephemeral=True)
 
     game_data = games_data[game_id]["game_data"]
-    team_drop_counts = game_data.get("team_drop_counts", {})
+    teams_data = game_data.get("teams", {})
 
-    if team_name not in team_drop_counts:
+    if team_name not in teams_data:
         return await interaction.response.send_message(f"No stats found for team '{team_name}'.", ephemeral=True)
 
     team_color = None
@@ -3540,7 +3663,7 @@ async def extravaganza_team_stats(interaction: discord.Interaction, event_name: 
     embed = discord.Embed(title=f"{team_name} Stats", color=team_color)
     stats_text = ""
 
-    team_data = team_drop_counts[team_name]
+    team_data = teams_data[team_name]
     if "drops" in team_data:
         for boss_name, drops in team_data["drops"].items():
             for drop_name, drop_info in drops.items():

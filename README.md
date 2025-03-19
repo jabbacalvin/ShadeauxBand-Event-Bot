@@ -107,7 +107,7 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - The command will return an error message if you are not on a team, or if the selected team member is not on your team.
     - It provides feedback on the original points, added points, and the new total points for the team.
     - It will return an error message if the event, team member, boss, or drop is not found.
-- `/extravaganza_drop_remove`: Remove a boss drop.
+- `/extravaganza_drop_remove`: Remove a drop from a team member.
   - Usage: `/extravaganza_drop_remove event_name:MyExtravaganza team_member_name:@User boss_name:BossName drop_name:DropName`
   - Note:
     - `event_name` uses autocomplete to select an extravaganza event.
@@ -178,8 +178,26 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - If the event does not exist or there are no teams, a message indicating this will be sent.
     - The command displays each team in a separate embed, showing the team's leaders and members.
     - Each team's embed uses the team's assigned color.
+- `/team_edit`: Edits a team's name and color within an event (team leaders and admins).
+  - Usage: `/team_edit event_name:<EventName> old_team_name:<OldTeamName> new_team_name:<NewTeamName> new_team_color:<#HexColor>`
+  - Notes:
+    - `event_name` uses autocomplete to select an event.
+    - `old_team_name` uses autocomplete to select a team within the specified event.
+    - `new_team_name` is the new name for the team.
+    - `new_team_color` is the new color for the team, specified as a hexadecimal color code (e.g., `#FF0000`).
+    - This command allows team leaders and admins to modify team details.
+    - Only admins and team leaders of the specified team are authorized to use this command.
+    - If you are not authorized, an error message will be sent.
+    - If the event or team does not exist, an error message will be sent.
+    - If a team with the new name already exists in the event, an error message will be sent.
+    - The command updates the team's name and color in the system's data.
+    - The command also updates the team's name in associated game data.
+    - The command sends an embed confirming the team's modification, displaying the old and new team names and colors.
+    - The embed includes an image showing the old and new team colors in a side-by-side format with two transparent squares in the middle.
+    - The image has a 5 pixel transparent border to prevent rounded corners.
+    - The embed uses the new team's color.
+    - The command is ephemeral, meaning only the user who executed the command can see the response.
 - `/team_assign`: Add a member to a team (team leaders and admins).
-
   - Usage: `/team_assign event_name:MyEvent team_name:TeamName free_agent_osrs_ign:IGN1 team_role:member`
   - Note:
     - `event_name` uses autocomplete to select an event.
@@ -192,7 +210,6 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - If the event, team, or free agent is not found, an error message will be sent.
     - After successful assignment, the free agent is removed from the free agent pool.
     - The command sends an embed confirming the assignment.
-
 - `/team_unassign`: Un-add a member to a team and move them back to the free agent pool (team leaders and admins).
   - Usage: `/team_unassign member_ign:IGN1 event_name:MyEvent`
   - Note:
@@ -211,7 +228,7 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
   - Note:
     - `event_name` must be a unique name for the event.
     - `event_type` uses autocomplete to suggest event types like "bingo," "snakes_ladders," or "extravaganza."
-    - `event_date` must be in YYYY-MM-DD format.
+    - `event_date` must be in MM/DD/YYYY format.
     - `event_time` must be in 12-hour format with AM or PM and include "CST" for Central Standard Time.
 - `/admin_event_delete`: Admin: Delete an existing event.
   - Usage: `/admin_event_delete event_name:MyUniqueEvent`

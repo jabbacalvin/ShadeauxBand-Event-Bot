@@ -58,6 +58,7 @@ To participate in an event as a free agent (someone not yet on a team), you'll u
 
 ### 4. Team Management (Team Leaders and Admins):
 
+> - **Editing Team:** Team leaders and admins can use `/team_edit event_name:MyEvent old_team_name:TeamA new_team_name:TeamB new_team_color:#00FF00` to edit a team's name and color within an event.
 > - **Assigning Members:** Team leaders and admins can use `/team_assign event_name:MyEvent team_name:TeamName free_agent_osrs_ign:IGN1 team_role:member` to add free agents to their teams.
 > - **Unassigning Members:** Team leaders and admins can use `/team_unassign member_ign:IGN1 event_name:MyEvent` to remove members from teams.
 > - **Changing Roles:** Admins can use `/admin_team_role_change event_name:MyEvent member_ign:IGN1 new_role:leader` to change member roles.
