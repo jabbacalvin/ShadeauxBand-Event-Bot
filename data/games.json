@@ -1,1 +1,14 @@
-{}
+{
+  "4f9061f5-6089-428c-ac5a-3da28ef3698d": {
+    "game_data": {
+      "team_drop_counts": {
+        "total_points": -4260,
+        "drops": {},
+        "TEAM TEST": {
+          "total_points": 0,
+          "drops": {}
+        }
+      }
+    }
+  }
+}

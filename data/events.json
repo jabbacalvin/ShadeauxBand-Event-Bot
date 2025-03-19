@@ -1,1 +1,8 @@
-{}
+{
+  "TEST EXTRAVAGANZA": {
+    "type": "extravaganza",
+    "start_date": "03/30/2025",
+    "start_time": "12:00 PM CST",
+    "game_id": "4f9061f5-6089-428c-ac5a-3da28ef3698d"
+  }
+}

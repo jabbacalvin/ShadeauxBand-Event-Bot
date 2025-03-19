@@ -8,7 +8,7 @@ import re
 import uuid
 import textwrap
 import matplotlib.pyplot as plt
-import datetime
+from datetime import datetime
 
 import discord
 from discord import app_commands
@@ -1053,21 +1053,7 @@ async def team_event_autocomplete_all(interaction: discord.Interaction, current:
         for event_name in interaction.client.teams:
             if current.lower() in event_name.lower():
                 suggestions.append(app_commands.Choice(name=event_name, value=event_name))
-    return suggestions[:25]
-
-async def team_name_autocomplete(
-  interaction: discord.Interaction, current: str
-) -> list[app_commands.Choice[str]]:
-  event_name = interaction.namespace.event_name
-  if event_name in client.teams:
-    suggestions = [
-      app_commands.Choice(name=team_name, value=team_name)
-      for team_name in client.teams[event_name].keys()
-      if current.lower() in team_name.lower()
-    ]
-    return suggestions[:25]
-  return []
-  
+    return suggestions[:25]  
 
 async def team_member_ign_autocomplete(interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
     suggestions = []
@@ -1963,7 +1949,7 @@ async def admin_team_create(interaction: discord.Interaction, event_name: str, t
     event_name="The name of the event.",
     team_name="The name of the team to delete.",
 )
-@app_commands.autocomplete(event_name=event_name_autocomplete, team_name=team_name_autocomplete)
+@app_commands.autocomplete(event_name=event_name_autocomplete, team_name=teams_in_event_autocomplete)
 @app_commands.default_permissions(administrator=True)
 async def admin_team_delete(interaction: discord.Interaction, event_name: str, team_name: str):
     logging.info(f"Admin {interaction.user.name} used /admin_team_delete to delete team {team_name} from {event_name}.")
@@ -1975,6 +1961,18 @@ async def admin_team_delete(interaction: discord.Interaction, event_name: str, t
     if event_name not in client.teams or team_name not in client.teams[event_name]:
         await interaction.response.send_message("Team does not exist for this event.", ephemeral=True)
         return
+
+    # Move members to free agents
+    if "members" in client.teams[event_name][team_name]:
+        if "free_agents" not in client.free_agents:
+            client.free_agents = {}
+        if event_name not in client.free_agents:
+            client.free_agents[event_name] = []
+
+        for member in client.teams[event_name][team_name]["members"]:
+            if member not in client.free_agents[event_name]:
+                client.free_agents[event_name].append(member)
+        client.save_free_agents()
 
     del client.teams[event_name][team_name]
     client.save_teams()
@@ -1990,7 +1988,7 @@ async def admin_team_delete(interaction: discord.Interaction, event_name: str, t
 
     embed = discord.Embed(
         title=f"Team '{team_name}' Deleted!",
-        description=f"Team '{team_name}' deleted from {event_name}.",
+        description=f"Team '{team_name}' deleted from {event_name}. Members moved to free agents.",
         color=discord.Color.red()
     )
     await interaction.response.send_message(embed=embed, ephemeral=True)
@@ -2265,6 +2263,95 @@ async def admin_extravaganza_drop_remove(interaction: discord.Interaction, event
         color=team_color_discord
     )
     await interaction.response.send_message(embed=embed)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@client.tree.command(name="admin_extravaganza_plyr_drops_rm", description="Admin: Remove all drops for a specific player.")
+@app_commands.describe(event_name="The name of the event.", team_name="The name of the team.", team_member_name="The Discord name of the player.")
+@app_commands.autocomplete(event_name=extravaganza_event_autocomplete, team_name=teams_in_event_autocomplete, team_member_name=team_member_autocomplete)
+@app_commands.default_permissions(administrator=True)
+async def admin_extravaganza_plyr_drops_rm(interaction: discord.Interaction, event_name: str, team_name: str, team_member_name: str):
+    logging.info(f"Admin {interaction.user.name} used /admin_extravaganza_plyr_drops_rm to remove drops for {team_member_name} in {team_name} in {event_name}.")
+
+    if event_name not in client.teams or team_name not in client.teams[event_name]:
+        await interaction.response.send_message("Event or team not found.", ephemeral=True)
+        return
+
+    team_data = client.teams[event_name][team_name]
+    player_found = False
+    osrs_ign = None
+
+    for member in team_data["members"]:
+        if member["discord_user"] == team_member_name:
+            player_found = True
+            osrs_ign = member["osrs_ign"]
+            break
+
+    if not player_found:
+        await interaction.response.send_message("Player not found in team.", ephemeral=True)
+        return
+
+    game_uuid = None
+    for event, event_data in client.events.items():
+        if event == event_name:
+            game_uuid = event_data.get("game_id")
+            break
+
+    if not game_uuid:
+        await interaction.response.send_message("Game data for event not found.", ephemeral=True)
+        return
+
+    game_data = client.games.get(game_uuid, {}).get("game_data", {})
+    team_drop_counts = game_data.get("team_drop_counts", {})
+
+    if team_name not in team_drop_counts or "drops" not in team_drop_counts[team_name]:
+        await interaction.response.send_message("No drops found for the team.", ephemeral=True)
+        return
+
+    team_drops = team_drop_counts[team_name]["drops"]
+    removed_points = 0
+    drops_removed = 0
+    removed_drops_list = []
+
+    for boss, drops in list(team_drops.items()):
+        for drop, drop_data in list(drops.items()):
+            points_list = drop_data.get("points", [])
+            new_points_list = []
+            for point_entry in points_list:
+                if team_member_name not in point_entry:
+                    new_points_list.append(point_entry)
+                else:
+                    removed_points += point_entry[team_member_name]
+                    drops_removed += 1
+                    removed_drops_list.append(f"{drop} from {boss} ({point_entry[team_member_name]} points)")
+
+            team_drops[boss][drop]["points"] = new_points_list
+            team_drops[boss][drop]["count"] = len(new_points_list)
+
+            if not team_drops[boss][drop]["points"]:
+                del team_drops[boss][drop]
+        if not team_drops[boss]:
+            del team_drops[boss]
+
+    team_drop_counts[team_name]["total_points"] -= removed_points
+    team_drop_counts["total_points"] -= removed_points
+    new_team_total_points = team_drop_counts[team_name]["total_points"]
+
+    client.games[game_uuid]["game_data"]["team_drop_counts"] = team_drop_counts
+    client.save_games()
+
+    team_color = client.teams[event_name][team_name].get("color", "#FFFFFF")
+    team_color_discord = discord.Color(int(team_color.lstrip('#'), 16))
+
+    embed = discord.Embed(
+        title=f"Drops Removed for {osrs_ign} from {team_name}",
+        color=team_color_discord
+    )
+    embed.add_field(name=f"Removed Drops ({drops_removed})", value="\n".join(removed_drops_list) if removed_drops_list else "No drops removed.", inline=False)
+    embed.add_field(name="Total Points Removed", value=removed_points, inline=False)
+    embed.add_field(name="Updated Team Total Points", value=new_team_total_points, inline=False)
+
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2620,7 +2707,7 @@ async def event_teams_view(interaction: discord.Interaction, event_name: str):
 @client.tree.command(name="team_assign", description="Add a member to a team (team leaders and admins).")
 @app_commands.describe(event_name="The name of the event.", team_name="The name of the team.",
                        free_agent_osrs_ign="The OSRS in-game name of the free agent.", team_role="The role of the free agent (leader or member).")
-@app_commands.autocomplete(event_name=event_name_autocomplete, team_name=team_name_autocomplete, free_agent_osrs_ign=free_agent_autocomplete)
+@app_commands.autocomplete(event_name=event_name_autocomplete, team_name=teams_in_event_autocomplete, free_agent_osrs_ign=free_agent_autocomplete)
 @app_commands.choices(
   team_role=[
     app_commands.Choice(name="leader", value="leader"),

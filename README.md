@@ -269,6 +269,7 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - `event_name` uses autocomplete to select the event.
     - `team_name` uses autocomplete to select the team to delete.
     - The team must exist within the specified event.
+    - Move members in the team back into the free agents pool.
     - If the event is a "snakes_ladders" event, the team's pawn position will be removed.
 - `/admin_team_role_change`: Admin: Change the role of a member in a team.
   - Usage: `/admin_team_role_change event_name:MyEvent member_ign:IGN1 new_role:leader`
