@@ -30,6 +30,13 @@ FREE_AGENTS_FILE = "./data/events_free_agents.json"
 TEAMS_FILE = "./data/teams.json"
 SCHEDULED_TASKS_FILE = './data/scheduled_tasks.json'
 
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# Logging setup
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+logging.basicConfig(filename='bot_logs.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 class MyClient(commands.Bot):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -1578,13 +1585,6 @@ async def scheduled_task_autocomplete(interaction: discord.Interaction, current:
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
-# Logging setup
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-logging.basicConfig(filename='bot_logs.log', level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
 # Admin commands
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3003,6 +3003,10 @@ async def draw_board(interaction: discord.Interaction, event_name: str):
 
             team_color = team_data.get("color", (245, 245, 220))  # Get color from team data, default to light beige
             pawn_history = game_data.get("pawns", {}).get(team_name, [0]) #get the pawns history or start with [0]
+
+            if isinstance(pawn_history, int):
+                pawn_history = [pawn_history]
+
             pawn_position = pawn_history[-1] #get the latest position
 
             pawns.append({

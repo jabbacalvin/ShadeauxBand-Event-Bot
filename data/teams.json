@@ -10,5 +10,22 @@
         }
       ]
     }
+  },
+  "Test1": {
+    "Team 1": {
+      "color": "#FF0000",
+      "members": [
+        {
+          "role": "member",
+          "discord_user": "titaniumbutter",
+          "osrs_ign": "ovo_izzy"
+        },
+        {
+          "role": "leader",
+          "discord_user": "dufwha",
+          "osrs_ign": "Dufwha"
+        }
+      ]
+    }
   }
 }
