@@ -299,7 +299,7 @@ client.teams = client.load_teams()
 # General functions
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_file="./data/snakes_and_ladders_tasks.json"):
+async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_file="./data/snakes_and_ladders_tasks.json"):
   """Generates a random snakes and ladders board with tasks populated."""
   board = [None] * (board_size * board_size)  # Initialize board with None
   snakes = []
@@ -344,7 +344,7 @@ def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_fil
     return board, snakes, ladders
 
   # Populate the board with tasks, excluding snake/ladder ends
-  num_tasks = min(len(tasks), board_size * board_size - 2 - (len(snakes) + len(ladders)) * 2)  # Leave room for start, finish, snake/ladder ends
+  num_tasks = min(len(tasks), board_size * board_size - 2 - len(snakes) - len(ladders))  # Leave room for start, finish, snake/ladder ends
   used_positions = set()  # Keep track of positions already used.
 
   # Calculate the number of tasks for each difficulty level
@@ -367,7 +367,7 @@ def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_fil
       valid_position_found = False
       while not valid_position_found:
         position = random.randint(min_pos, max_pos - 1)  # Get a random position.
-        if position not in used_positions and position not in [head for head, tail in snakes] and position not in [tail for head, tail in snakes] and position not in [bottom for bottom, top in ladders] and position not in [top for bottom, top in ladders]:
+        if position not in used_positions and position not in [head for head, tail in snakes] and position not in [bottom for bottom, top in ladders]:
           # Find the next task with the correct difficulty
           next_task_index = task_index
           while next_task_index < len(tasks):
@@ -381,6 +381,19 @@ def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_fil
           if not valid_position_found:
             # If no more tasks of the correct difficulty are found, break the loop
             break
+
+
+  # Add tasks to snake tails and ladder tops
+    for head, tail in snakes:
+      if board[tail] is None:
+        if task_index < len(tasks):
+          board[tail] = tasks[task_index]["task"]
+          task_index += 1
+    for bottom, top in ladders:
+      if board[top] is None:
+        if task_index < len(tasks):
+          board[top] = tasks[task_index]["task"]
+          task_index += 1
 
   # Add start and finish
   board[0] = "Start"
@@ -413,7 +426,7 @@ def generate_bingo_board(board_size, drops_data):
 
   return board
 
-def regenerate_gameboard(event_name, client):
+async def regenerate_gameboard(event_name, client):
   """Regenerates the gameboard for snakes_ladders and bingo events."""
   if event_name not in client.events:
     return "Event does not exist."
@@ -429,7 +442,7 @@ def regenerate_gameboard(event_name, client):
     board_size = 10
     num_snakes = 8
     num_ladders = 8
-    board, snakes, ladders = generate_snakes_ladders_board(board_size, num_snakes, num_ladders)
+    board, snakes, ladders = await generate_snakes_ladders_board(board_size, num_snakes, num_ladders)
     game_data["board"] = board
     game_data["snakes"] = snakes
     game_data["ladders"] = ladders
@@ -485,16 +498,20 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
       # Default cell color
       cell_color = (43, 43, 43, 255)  # background color
 
+      is_snake_or_ladder_end = False
+
       # Highlight snake start/end
       for start, end in snakes:
         if cell_number == start or cell_number == end:
           cell_color = (244, 204, 204, 255)  # light red
+          is_snake_or_ladder_end = True
           break
 
       # Highlight ladder start/end
       for start, end in ladders:
         if cell_number == start or cell_number == end:
           cell_color = (207, 226, 243, 255)  # light blue
+          is_snake_or_ladder_end = True
           break
 
       draw.rectangle([(cell_x1, cell_y1), (cell_x2, cell_y2)], fill=cell_color, outline="black", width=2)
@@ -514,7 +531,7 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
         else:
           y_offset = 15
           for line in wrapped_text:
-            draw.text((col * cell_size + 5, row * cell_size + y_offset), line, fill="white", font=font)
+            draw.text((col * cell_size + 5, row * cell_size + y_offset), line, fill=("white" if not is_snake_or_ladder_end else "black"), font=font)
             y_offset += font.getbbox(line)[3] - font.getbbox(line)[1] + 2
 
   for start, end in snakes:
@@ -633,23 +650,23 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
 
     img.paste(ladder_layer, (0, 0), ladder_layer)
 
-  for i in range(board_size):
-    row = grid_size - 1 - i // grid_size
-    col = i % grid_size if row % 2 == 0 else grid_size - 1 - i % grid_size
-    x = col * cell_size + cell_size // 2
-    y = row * cell_size + cell_size // 2
-    if board[i]:
-      text = str(board[i])
-      wrapped_text = textwrap.wrap(text, width=18)
-      if text == "Start" or text == "Finish":
-        text_width = draw.textbbox((0, 0), text, font=bold_font)[2] - draw.textbbox((0, 0), text, font=bold_font)[0]
-        text_height = draw.textbbox((0, 0), text, font=bold_font)[3] - draw.textbbox((0, 0), text, font=bold_font)[1]
-        draw.text((x - text_width / 2, y - text_height / 2), text, fill="white", font=bold_font)
-      else:
-        y_offset = 15
-        for line in wrapped_text:
-          draw.text((col * cell_size + 5, row * cell_size + y_offset), line, fill="white", font=font)
-          y_offset += font.getbbox(line)[3] - font.getbbox(line)[1] + 2
+#   for i in range(board_size):
+#     row = grid_size - 1 - i // grid_size
+#     col = i % grid_size if row % 2 == 0 else grid_size - 1 - i % grid_size
+#     x = col * cell_size + cell_size // 2
+#     y = row * cell_size + cell_size // 2
+#     if board[i]:
+#       text = str(board[i])
+#       wrapped_text = textwrap.wrap(text, width=18)
+#       if text == "Start" or text == "Finish":
+#         text_width = draw.textbbox((0, 0), text, font=bold_font)[2] - draw.textbbox((0, 0), text, font=bold_font)[0]
+#         text_height = draw.textbbox((0, 0), text, font=bold_font)[3] - draw.textbbox((0, 0), text, font=bold_font)[1]
+#         draw.text((x - text_width / 2, y - text_height / 2), text, fill="white", font=bold_font)
+#       else:
+#         y_offset = 15
+#         for line in wrapped_text:
+#           draw.text((col * cell_size + 5, row * cell_size + y_offset), line, fill="white", font=font)
+#           y_offset += font.getbbox(line)[3] - font.getbbox(line)[1] + 2
 
   # Group pawns by position
   pawns_by_position = {}
@@ -1619,7 +1636,7 @@ async def admin_event_create(interaction: discord.Interaction, event_name: str, 
     board_size = 10
     num_snakes = 8
     num_ladders = 8
-    board, snakes, ladders = generate_snakes_ladders_board(board_size, num_snakes, num_ladders)
+    board, snakes, ladders = await generate_snakes_ladders_board(board_size, num_snakes, num_ladders)
     game_data["board"] = board
     game_data["snakes"] = snakes
     game_data["ladders"] = ladders
@@ -1696,7 +1713,7 @@ async def admin_regenerate_board(interaction: discord.Interaction, event_name: s
 
   async def confirm_callback(interaction_button: discord.Interaction):
     if interaction_button.user == interaction.user:
-      result = regenerate_gameboard(event_name, client)
+      result = await regenerate_gameboard(event_name, client)
       await interaction_button.response.send_message(result, ephemeral=True)
       await interaction.edit_original_response(view=None) #remove buttons
     else:
@@ -3137,9 +3154,11 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
     user_team = None
     for team_name, team_data in teams.items():
         for member in team_data["members"]:
-            if member["discord_user"] == interaction.user.name and member["role"] == "leader":
-                user_team = team_name
-                break
+            # if member["discord_user"] == interaction.user.name and member["role"] == "leader":
+            #     user_team = team_name
+            #     break
+            user_team = team_name
+            break
         if user_team:
             break
 
