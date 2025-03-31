@@ -336,7 +336,7 @@ async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tas
         tasks = tasks_data.get("tasks", [])
 
     # Sort tasks by difficulty: Easy, Medium, Hard
-    difficulty_order = {"Easy": 0, "Medium": 1, "Hard": 2}
+    difficulty_order = {"Easy": 0, "Medium": 1, "Hard": 2, "Elite": 3}
     tasks.sort(key=lambda task: difficulty_order.get(task.get("difficulty", "Medium")))  # Default to Medium if no difficulty
 
   except FileNotFoundError:
@@ -348,17 +348,19 @@ async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tas
   used_positions = set()  # Keep track of positions already used.
 
   # Calculate the number of tasks for each difficulty level
-  easy_count = min(num_tasks // 3, 33)
-  medium_count = min((num_tasks - easy_count) // 2, 33)
-  hard_count = num_tasks - easy_count - medium_count
+  easy_count = min(num_tasks // 3, 30)
+  medium_count = min((num_tasks - easy_count) // 2, 30)
+  hard_count = min((num_tasks - easy_count - medium_count) // 2, 30)
+  elite_count = num_tasks - easy_count - medium_count - hard_count
 
   # Distribute tasks based on difficulty
   task_index = 0
-  difficulty_counts = {"Easy": easy_count, "Medium": medium_count, "Hard": hard_count}
+  difficulty_counts = {"Easy": easy_count, "Medium": medium_count, "Hard": hard_count, "Elite": elite_count}
   difficulty_ranges = {
-    "Easy": (1, board_size * board_size // 3),
-    "Medium": (board_size * board_size // 3, 2 * board_size * board_size // 3),
-    "Hard": (2 * board_size * board_size // 3, board_size * board_size - 1)
+    "Easy": (1, board_size * board_size // 4),
+    "Medium": (board_size * board_size // 4, 2 * board_size * board_size // 4),
+    "Hard": (2 * board_size * board_size // 4, 3 * board_size * board_size // 4),
+    "Elite": (3 * board_size * board_size // 4, board_size * board_size - 1)
   }
 
   for difficulty, count in difficulty_counts.items():
