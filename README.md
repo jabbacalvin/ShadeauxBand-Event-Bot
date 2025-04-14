@@ -86,6 +86,21 @@ The Shadeauxband Events Bot is a Discord bot designed to manage and track events
     - It then redraws and sends the updated snakes and ladders board with the reverted pawn positions.
     - If cancelled, it sends a message indicating the roll reversion was cancelled.
     - If the snakes and ladders image generation fails, an error message will be sent.
+- `/reroll`: Team Leader: Reverts the last dice roll and rolls again for Snakes and Ladders.
+  - Usage: `/reroll event_name:MySnakesLaddersEvent`
+  - Note:
+    - `event_name` uses autocomplete to select a snakes and ladders event.
+    - This command reverts the last dice roll and then rolls a new dice for the team leader's team in the specified snakes and ladders event.
+    - Only team leaders can use this command.
+    - If you are not a team leader, an error message will be sent.
+    - If the event is not found, is not a snakes and ladders event, or game data is missing, an error message will be sent.
+    - If no teams are found for the event, an error message will be sent.
+    - If there are no rolls to re-roll, an error message will be sent.
+    - The command presents a confirmation dialog with "Yes, Re-roll" and "Cancel" options.
+    - If confirmed, it removes the last pawn position, saves the revert data, rolls a new dice, updates the pawn position, and sends an embed message indicating the roll was reverted and the new roll result, using the team's color.
+    - It then redraws and sends the updated snakes and ladders board with the new pawn positions.
+    - If cancelled, it sends a message indicating the re-roll was cancelled.
+    - If the snakes and ladders image generation fails, an error message will be sent.
 - `/extravaganza_boss_drops`: View drops and points for a boss.
   - Usage: `/extravaganza_boss_drops boss_name:BossName`
   - Note:

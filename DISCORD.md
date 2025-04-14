@@ -69,6 +69,7 @@ To participate in an event as a free agent (someone not yet on a team), you'll u
 > - **Viewing Snakes and Ladders Tasks:** Use `/list_snakes_ladders_tasks event_name:MySnakesLaddersEvent` to see the task list and snake/ladder positions.
 > - **Rolling Dice (Snakes and Ladders):** Team leaders use `/roll_dice event_name:MySnakesLaddersEvent` to roll the dice and move their team's pawn.
 > - **Reverting Rolls (Snakes and Ladders):** Team leaders use `/revert_roll event_name:MySnakesLaddersEvent` to revert their team's last dice roll and move their pawn back to the previous position.
+> - **Re-rolling Dice (Snakes and Ladders):** Team leaders use `/reroll event_name:MySnakesLaddersEvent` to revert their team's last dice roll and roll again.
 
 ### 6. Extravaganza Events (Drop Logging):
 

@@ -847,7 +847,8 @@ async def draw_and_send_board(interaction, game_data, teams):
     pawns = []
     for team_name, team_data in teams.items():
         team_color = team_data.get("color", (245, 245, 220))
-        pawn_position = game_data.get("pawns", {}).get(team_name, [0])[-1] #get the latest position
+        pawn_data = game_data.get("pawns", {}).get(team_name, {"positions": [0]})
+        pawn_position = pawn_data.get("positions", [0])[-1] #get the latest position
 
         pawns.append({
             "name": team_name,
@@ -3178,9 +3179,6 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
     user_team = None
     for team_name, team_data in teams.items():
         for member in team_data["members"]:
-            # if member["discord_user"] == interaction.user.name and member["role"] == "leader":
-            #     user_team = team_name
-            #     break
             user_team = team_name
             break
         if user_team:
@@ -3190,14 +3188,17 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
         await interaction.response.send_message("You are not a team leader for this event.", ephemeral=True)
         return
 
-    current_team_name = user_team #Use the user team name
+    current_team_name = user_team  # Use the user team name
 
     # Roll the dice
     dice_roll = random.randint(1, 6)
 
     # Update pawn position
-    pawn_history = game_data.get("pawns", {}).get(current_team_name, [0]) #get the pawns history or start with [0]
-    current_position = pawn_history[-1] #get the latest position
+    pawn_data = game_data.get("pawns", {}).get(current_team_name, {"positions": [0], "reverts": []})  # Get pawn data or initialize
+    pawn_positions = pawn_data["positions"]
+    pawn_reverts = pawn_data["reverts"]
+
+    current_position = pawn_positions[-1]  # Get the latest position
     new_position = current_position + dice_roll
 
     # Check for snakes and ladders
@@ -3222,10 +3223,7 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
     if "pawns" not in game_data:
         game_data["pawns"] = {}
 
-    if current_team_name not in game_data["pawns"]:
-        game_data["pawns"][current_team_name] = [0] #initializes the array if it does not exist
-
-    game_data["pawns"][current_team_name].append(new_position) #append the new position to the array.
+    game_data["pawns"][current_team_name] = {"positions": pawn_positions + [new_position], "reverts": pawn_reverts}  # Update with new position
 
     client.save_games()
 
@@ -3254,7 +3252,7 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
 @client.tree.command(name="revert_roll", description="Team Leader: Reverts the last dice roll for Snakes and Ladders.")
 @app_commands.describe(event_name="The name of the Snakes and Ladders event.", reason="Reason for reverting the roll.")
 @app_commands.autocomplete(event_name=snakes_ladders_event_autocomplete)
-async def revert_roll(interaction: discord.Interaction, event_name: str, reason: str="No reason provided"):
+async def revert_roll(interaction: discord.Interaction, event_name: str, reason: str = "No reason provided"):
     logging.info(f"User {interaction.user.name} used /revert_roll for {event_name}.")
     if event_name not in client.events:
         await interaction.response.send_message("Event not found.", ephemeral=True)
@@ -3293,9 +3291,11 @@ async def revert_roll(interaction: discord.Interaction, event_name: str, reason:
 
     current_team_name = user_team
 
-    pawn_history = game_data.get("pawns", {}).get(current_team_name, [0])
+    pawn_data = game_data.get("pawns", {}).get(current_team_name, {"positions": [0], "reverts": []})
+    pawn_positions = pawn_data["positions"]
+    pawn_reverts = pawn_data["reverts"]
 
-    if len(pawn_history) <= 1:
+    if len(pawn_positions) <= 1:
         await interaction.response.send_message("No rolls to revert.", ephemeral=True)
         return
 
@@ -3304,26 +3304,33 @@ async def revert_roll(interaction: discord.Interaction, event_name: str, reason:
 
     async def confirm_callback(interaction_button: discord.Interaction):
         if interaction_button.user == interaction.user:
-            previous_position = pawn_history[-2] if len(pawn_history) > 1 else 0 #get the position before the last one.
-            current_position = pawn_history[-1] #get the latest position.
+            previous_position = pawn_positions[-2] if len(pawn_positions) > 1 else 0
+            current_position = pawn_positions[-1]
 
-            pawn_history.pop()  # Remove the last position
+            revert_entry = {
+                "previous_position": previous_position,
+                "reverted_position": current_position,
+                "reason": reason,
+                "reverted_by": interaction.user.name,
+            }
+            pawn_reverts.append(revert_entry)
+            pawn_positions.pop()
             client.save_games()
 
             # Get the team color
             team_data = teams[current_team_name]
-            team_color_hex = team_data.get("color", "#FFFFFF")  # Default to white if no color
+            team_color_hex = team_data.get("color", "#FFFFFF")
             team_color = discord.Color.from_str(team_color_hex)
 
             # Create the embed
             embed = discord.Embed(
                 title=f":leftwards_arrow_with_hook: {current_team_name} Roll Reverted",
-                description=f"Last roll reverted from {current_position + 1} to {previous_position + 1}.",
+                description=f"Last roll reverted from {current_position + 1} to {previous_position + 1}.\nReason: {reason}",
                 color=team_color,
             )
 
             await interaction_button.response.send_message(embed=embed, ephemeral=False)
-            await interaction.edit_original_response(view=None)  # Remove buttons
+            await interaction.edit_original_response(view=None)
             await draw_and_send_board(interaction, game_data, teams)
         else:
             await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
@@ -3331,7 +3338,7 @@ async def revert_roll(interaction: discord.Interaction, event_name: str, reason:
     async def cancel_callback(interaction_button: discord.Interaction):
         if interaction_button.user == interaction.user:
             await interaction_button.response.send_message("Roll reversion cancelled.", ephemeral=True)
-            await interaction.edit_original_response(view=None)  # Remove buttons
+            await interaction.edit_original_response(view=None)
         else:
             await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
 
@@ -3343,6 +3350,139 @@ async def revert_roll(interaction: discord.Interaction, event_name: str, reason:
     view.add_item(cancel_button)
 
     await interaction.response.send_message(f"Are you sure you want to revert the last roll for {current_team_name}? THERE IS NO GOING BACK.", view=view, ephemeral=True)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@client.tree.command(name="reroll", description="Team Leader: Reverts the last dice roll and rolls again for Snakes and Ladders.")
+@app_commands.describe(event_name="The name of the Snakes and Ladders event.")
+@app_commands.autocomplete(event_name=snakes_ladders_event_autocomplete)
+async def reroll(interaction: discord.Interaction, event_name: str):
+    logging.info(f"User {interaction.user.name} used /reroll for {event_name}.")
+    if event_name not in client.events:
+        await interaction.response.send_message("Event not found.", ephemeral=True)
+        return
+
+    event_data = client.events[event_name]
+    if event_data["type"] != "snakes_ladders":
+        await interaction.response.send_message("This command only works for Snakes and Ladders events.", ephemeral=True)
+        return
+
+    game_uuid = event_data["game_id"]
+    if game_uuid not in client.games:
+        await interaction.response.send_message("Game data not found.", ephemeral=True)
+        return
+
+    game_data = client.games[game_uuid]["game_data"]
+    teams = client.teams.get(event_name, {})
+
+    if not teams:
+        await interaction.response.send_message("No teams found for this event.", ephemeral=True)
+        return
+
+    # Check if the user is on a team and is a leader
+    user_team = None
+    for team_name, team_data in teams.items():
+        for member in team_data["members"]:
+            if member["discord_user"] == interaction.user.name and member["role"] == "leader":
+                user_team = team_name
+                break
+        if user_team:
+            break
+
+    if not user_team:
+        await interaction.response.send_message("You are not a team leader for this event.", ephemeral=True)
+        return
+
+    current_team_name = user_team
+
+    pawn_data = game_data.get("pawns", {}).get(current_team_name, {"positions": [0], "reverts": []})
+    pawn_positions = pawn_data["positions"]
+    pawn_reverts = pawn_data["reverts"]
+
+    if len(pawn_positions) <= 1:
+        await interaction.response.send_message("No rolls to re-roll.", ephemeral=True)
+        return
+
+    confirm_button = discord.ui.Button(style=discord.ButtonStyle.danger, label="✅ Yes, Re-roll. I understand there is no going back!")
+    cancel_button = discord.ui.Button(style=discord.ButtonStyle.secondary, label="❌ Cancel")
+
+    async def confirm_callback(interaction_button: discord.Interaction):
+        if interaction_button.user == interaction.user:
+            previous_position = pawn_positions[-2] if len(pawn_positions) > 1 else 0
+            current_position = pawn_positions[-1]
+
+            revert_entry = {
+                "previous_position": current_position, # Corrected: Before revert
+                "reverted_position": previous_position, # Corrected: After revert
+                "reason": "Re-roll",
+                "reverted_by": interaction.user.name,
+            }
+            pawn_reverts.append(revert_entry)
+            pawn_positions.pop()
+
+            # Roll the dice again
+            dice_roll = random.randint(1, 6)
+            new_position = previous_position + dice_roll
+
+            # Check for snakes and ladders again
+            snakes = game_data.get("snakes", [])
+            ladders = game_data.get("ladders", [])
+
+            snake_or_ladder_message = ""
+
+            for start, end in snakes:
+                if new_position == start:
+                    new_position = end
+                    snake_or_ladder_message = "Oh no, oh no! You landed on a snake :snake: and slid down."
+                    break
+
+            for start, end in ladders:
+                if new_position == start:
+                    new_position = end
+                    snake_or_ladder_message = "Yay! You landed on a ladder :ladder: and climbed up."
+                    break
+
+            pawn_positions.append(new_position)
+
+            client.save_games()
+
+            # Get the team color
+            team_data = teams[current_team_name]
+            team_color_hex = team_data.get("color", "#FFFFFF")
+            team_color = discord.Color.from_str(team_color_hex)
+
+            # Create the embed
+            description = f"Last roll reverted from {current_position + 1} to {previous_position + 1}.\n\nRolled a {dice_roll} and moved to {new_position + 1}."
+            if snake_or_ladder_message:
+                description += f"\n{snake_or_ladder_message}"
+
+            embed = discord.Embed(
+                title=f":game_die: {current_team_name} Re-roll",
+                description=description,
+                color=team_color,
+            )
+
+            await interaction_button.response.send_message(embed=embed, ephemeral=False)
+            await interaction.edit_original_response(view=None)
+            await draw_and_send_board(interaction, game_data, teams)
+        else:
+            await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
+
+    async def cancel_callback(interaction_button: discord.Interaction):
+        if interaction_button.user == interaction.user:
+            await interaction_button.response.send_message("Re-roll cancelled.", ephemeral=True)
+            await interaction.edit_original_response(view=None)
+        else:
+            await interaction_button.response.send_message("This is not your button to press", ephemeral=True)
+
+    confirm_button.callback = confirm_callback
+    cancel_button.callback = cancel_callback
+
+    view = discord.ui.View()
+    view.add_item(confirm_button)
+    view.add_item(cancel_button)
+
+    await interaction.response.send_message(f"Are you sure you want to re-roll for {current_team_name}? THERE IS NO GOING BACK.", view=view, ephemeral=True)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 

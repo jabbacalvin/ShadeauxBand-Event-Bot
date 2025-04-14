@@ -1,22 +1,4 @@
 {
-  "TEST EXTRAVAGANZA": {
-    "type": "extravaganza",
-    "start_date": "03/30/2025",
-    "start_time": "12:00 PM CST",
-    "game_id": "709c0cd5-51f4-42f9-a723-2500c42b307c"
-  },
-  "TEST SNAKES": {
-    "type": "snakes_ladders",
-    "start_date": "04/11/2025",
-    "start_time": "12:00 AM CST",
-    "game_id": "49b4eb82-e9a8-403f-8674-f8fa5e7cd676"
-  },
-  "TEST SNAKES2": {
-    "type": "snakes_ladders",
-    "start_date": "03/30/2025",
-    "start_time": "12:00 PM CST",
-    "game_id": "336243bd-e795-4ef4-b382-4994938ba34d"
-  },
   "Test1": {
     "type": "snakes_ladders",
     "start_date": "04/11/2025",

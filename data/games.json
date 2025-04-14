@@ -1,442 +1,195 @@
 {
-  "709c0cd5-51f4-42f9-a723-2500c42b307c": {
-    "game_data": {
-      "teams": {
-        "TEST TEAM 2": {
-          "total_points": 2370,
-          "drops": {
-            "Abyssal Sire": {
-              "Abyssal Whip": {
-                "count": 1,
-                "points": [
-                  {
-                    "titaniumbutter": 2370
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "49b4eb82-e9a8-403f-8674-f8fa5e7cd676": {
-    "game_data": {
-      "board": [
-        "Start",
-        null,
-        "1M experience (any skill or combined skills)",
-        "1x Zealot's robes piece (any)",
-        "1x Zalcano unique (1x)",
-        "Cook 100 sharks",
-        null,
-        "1x Echo crystal",
-        "1x Dragon boots",
-        "Obtain a Dragon defender",
-        "Defeat the Giant Mole 10 times",
-        "Catch a raw karambwanji",
-        "Craft 100 law runes",
-        "Screenshot any level 69 combat player.",
-        null,
-        null,
-        "Complete 30 fire giant kills",
-        "4x Scurrius spines",
-        "1x Guardians of the Rift unique (excluding diary)",
-        null,
-        "1x Blessed Bone Statuette",
-        null,
-        "Complete 200 chaos druid kills",
-        "1x King Black Dragon head",
-        null,
-        null,
-        null,
-        null,
-        "Complete 100 laps of any rooftop agility course",
-        "Obtain a granite maul",
-        "Obtain a rune platebody",
-        "Complete 5 laps of the Ardougne rooftop agility course",
-        "Complete 20 Wintertodt kills",
-        "1x Zulrah unique (any)",
-        null,
-        "Obtain a kraken tentacle",
-        "Complete a hard clue scroll",
-        "1x Unsired",
-        "1x Sunfire armor piece (any)",
-        "3x Hueycoatl unique",
-        "25x Last Man Standing points",
-        "2x Awakener's orb",
-        null,
-        "1x Pharaoh's sceptre",
-        "1x Wilderness boss rings (any) -or- 1x Vyrewatch piece (any)",
-        "1x Grotesque Guardians unique (any)",
-        "1x Amoxliatl tertiary (excluding anything under 1/100)",
-        "2x Venator shard",
-        "1x Blood shard",
-        "1x Tempoross unique (excluding anything under 1/400)",
-        "6x Barbarian Assault completions (queen kills)",
-        "1x Tormented Demons unique (any)",
-        "10x Hunllef points (11 Crystal Gauntlet = 1 point, 1 Gauntlet = 0.5 points, 1 Inferno = 3 points)",
-        "2x Moons of Peril unique (any)",
-        "1x Dragon pickaxe",
-        null,
-        "2x unique Dagannoth Kings rings (not the same one)",
-        "Obtain a clue scroll from a mimic",
-        "Catch 50 dark crabs",
-        "5x Karamja points (Fire cape = 1 point, Inferno = 3 points)",
-        "1x Cerberus unique (any)",
-        null,
-        "Complete a medium combat achievement",
-        "1x Zenyte shard",
-        "1x Elemental staff crown",
-        "1x Sarachnis cudgel",
-        "1x Spirit shield",
-        null,
-        "1x Ward piece (any) (Malediction or Odium)",
-        "Obtain a Corporeal Beast sigil",
-        "Obtain a Dragonfire ward",
-        null,
-        "Complete 10 Chambers of Xeric raids",
-        "1x Dragon Warhammer",
-        "1x Saradomin unique",
-        "1x Araxxor unique",
-        null,
-        "1x Zamorak unique",
-        "Obtain a enhanced crystal weapon seed",
-        "Complete 5 Tombs of Amascut raids",
-        null,
-        null,
-        "Complete a raid at 150+ invocation",
-        "Complete a master clue scroll",
-        "Obtain a dragon rider lance",
-        "1x Theatre of Blood purple (any)",
-        "1x Chambers of Xeric purple (any)",
-        "Obtain a imbued heart",
-        "Obtain a Twisted bow",
-        "100M new gold gained (any method other than selling bank items) (must screenshot proof of every drop)",
-        null,
-        "Complete a elite clue scroll",
-        "Obtain a smoke devil pet",
-        "1x Armadyl unique",
-        "1x DT2 unique drop (any vestige, ingot, axe piece, quartz, pet, virtus)",
-        "Obtain a pair of pegasian boots",
-        "1x Bandos unique",
-        "Obtain a tormented bracelet",
-        null,
-        "Finish"
-      ],
-      "snakes": [
-        [
-          90,
-          81
-        ],
-        [
-          71,
-          34
-        ],
-        [
-          76,
-          24
-        ],
-        [
-          67,
-          1
-        ]
-      ],
-      "ladders": [
-        [
-          25,
-          42
-        ],
-        [
-          19,
-          80
-        ]
-      ]
-    }
-  },
-  "336243bd-e795-4ef4-b382-4994938ba34d": {
-    "game_data": {
-      "board": [
-        "Start",
-        null,
-        "1M experience (any skill or combined skills)",
-        "Obtain a granite maul",
-        null,
-        "Complete 30 fire giant kills",
-        null,
-        "Cook 100 sharks",
-        "Complete 200 chaos druid kills",
-        null,
-        "Complete 5 laps of the Ardougne rooftop agility course",
-        "Craft 100 law runes",
-        null,
-        null,
-        "Obtain a Dragon defender",
-        "1x Zealot's robes piece (any)",
-        null,
-        "Complete 100 laps of any rooftop agility course",
-        null,
-        "Complete 20 Wintertodt kills",
-        "Defeat the Giant Mole 10 times",
-        "1x King Black Dragon head",
-        "1x Guardians of the Rift unique (excluding diary)",
-        "4x Scurrius spines",
-        "Obtain a rune platebody",
-        "1x Blessed Bone Statuette",
-        "Catch a raw karambwanji",
-        "1x Echo crystal",
-        null,
-        "1x Dragon boots",
-        "Screenshot any level 69 combat player.",
-        "1x Zalcano unique (1x)",
-        null,
-        null,
-        "2x unique Dagannoth Kings rings (not the same one)",
-        "6x Barbarian Assault completions (queen kills)",
-        "1x Elemental staff crown",
-        "1x Cerberus unique (any)",
-        null,
-        "10x Hunllef points (11 Crystal Gauntlet = 1 point, 1 Gauntlet = 0.5 points, 1 Inferno = 3 points)",
-        "3x Hueycoatl unique",
-        "1x Dragon pickaxe",
-        "1x Blood shard",
-        "1x Wilderness boss rings (any) -or- 1x Vyrewatch piece (any)",
-        "1x Amoxliatl tertiary (excluding anything under 1/100)",
-        "Obtain a clue scroll from a mimic",
-        null,
-        "Catch 50 dark crabs",
-        "2x Venator shard",
-        "2x Moons of Peril unique (any)",
-        "25x Last Man Standing points",
-        null,
-        "2x Awakener's orb",
-        "Complete a medium combat achievement",
-        "1x Pharaoh's sceptre",
-        "1x Sarachnis cudgel",
-        "1x Tempoross unique (excluding anything under 1/400)",
-        "1x Sunfire armor piece (any)",
-        "1x Tormented Demons unique (any)",
-        "1x Unsired",
-        "5x Karamja points (Fire cape = 1 point, Inferno = 3 points)",
-        "1x Grotesque Guardians unique (any)",
-        null,
-        "1x Zenyte shard",
-        null,
-        "1x Zulrah unique (any)",
-        "1x Theatre of Blood purple (any)",
-        null,
-        null,
-        "Complete 5 Tombs of Amascut raids",
-        "Complete 10 Chambers of Xeric raids",
-        null,
-        "Complete a master clue scroll",
-        "Obtain a smoke devil pet",
-        null,
-        "1x Saradomin unique",
-        "Obtain a Twisted bow",
-        "1x Ward piece (any) (Malediction or Odium)",
-        null,
-        "1x Spirit shield",
-        "1x Chambers of Xeric purple (any)",
-        "1x Zamorak unique",
-        "Complete a elite clue scroll",
-        null,
-        "1x Armadyl unique",
-        "100M new gold gained (any method other than selling bank items) (must screenshot proof of every drop)",
-        "Obtain a Dragonfire ward",
-        "1x Araxxor unique",
-        "1x Dragon Warhammer",
-        null,
-        "1x DT2 unique drop (any vestige, ingot, axe piece, quartz, pet, virtus)",
-        "Obtain a tormented bracelet",
-        "Obtain a enhanced crystal weapon seed",
-        "Obtain a imbued heart",
-        "Obtain a pair of pegasian boots",
-        "Obtain a Corporeal Beast sigil",
-        "Obtain a dragon rider lance",
-        "1x Bandos unique",
-        "Complete a raid at 150+ invocation",
-        "Finish"
-      ],
-      "snakes": [
-        [
-          38,
-          12
-        ],
-        [
-          78,
-          32
-        ],
-        [
-          62,
-          46
-        ],
-        [
-          68,
-          28
-        ],
-        [
-          83,
-          1
-        ]
-      ],
-      "ladders": [
-        [
-          4,
-          89
-        ],
-        [
-          6,
-          67
-        ],
-        [
-          18,
-          71
-        ]
-      ]
-    }
-  },
   "bd4ac8aa-5a30-4131-a533-6da0a988355e": {
     "game_data": {
       "board": [
         "Start",
-        "Obtain any Kraken unique",
+        "Obtain any Cerberus unique",
         "Obtain 3 Amoxliatl unique",
         null,
-        "Obtain any Araxxor unique",
-        "Obtain 2 Royal Titans uniques",
-        "Obtain any Thermonuclear Smoke Devil unique",
+        "Obtain any Callisto or Artio unique",
+        "Obtain any Duke Sucellus unique",
+        "Obtain any Leviathan unique",
+        "Obtain any Crazy Archaeologist unique",
+        "Obtain any Phantom Muspah unique",
+        "Obtain any Kraken unique",
+        "Obtain any Gauntlet Unique",
+        "Obtain any Chaos Fanatic unique",
+        "Obtain an Unsired from Abyssal Sire",
+        "Obtain 2 Moons of Peril uniques",
+        null,
         "Obtain any Kalphite Queen unique",
+        "Obtain any Araxxor unique",
+        "Obtain any Hueycoatl unique",
+        "Obtain any Grotesque Guardians unique",
         "Obtain any Alchemical Hydra unique",
         null,
-        "Obtain any Phantom Muspah unique",
-        "Obtain any Leviathan unique",
-        "Obtain any Hueycoatl unique",
-        "Obtain an Unsired from Abyssal Sire",
-        "Obtain any Callisto or Artio unique",
-        "Obtain 2 Barrows uniques",
-        "Obtain 2 Moons of Peril uniques",
-        "Obtain any Chaos Fanatic unique",
-        "Obtain any Dagannoth Kings unique",
-        "Obtain any Grotesque Guardians unique",
-        "Obtain any Gauntlet Unique",
-        "Obtain any Duke Sucellus unique",
-        "Obtain any Cerberus unique",
-        "Obtain any Crazy Archaeologist unique",
-        "Obtain 2 Scurrius uniques",
-        "Obtain any General Graardor unique",
-        "Obtain any K'ril Tsutsaroth unique",
-        "Obtain any King Black Dragon unique",
-        "Obtain 2 Cerberus uniques",
-        "Obtain any Commander Zilyana unique",
-        "Obtain any Kree'arra unique",
-        "Obtain 2 Crazy Archaeologist uniques",
-        "Obtain 2 Araxxor uniques",
+        "Obtain 2 Royal Titans uniques",
         null,
-        "Obtain 5 Amoxliatl uniques",
+        "Obtain any Dagannoth Kings unique",
+        "Obtain 2 Barrows uniques",
         "Obtain 4 Barrows uniques",
-        "Obtain 2 Kalphite Queen uniques",
-        "Obtain 2 Grotesque Guardians uniques",
-        "25x Last Man Standing points",
-        "Obtain 2 Alchemical Hydra Uniques",
-        "Obtain 2 Dagannoth Kings uniques",
-        "Obtain any Corporeal Beast unique",
-        "Obtain 2 Duke Sucellus uniques",
-        "Obtain 2 Gauntlet Uniques",
-        "Obtain 3 Kraken uniques",
-        "Obtain 2 Unsired from Abyssal Sire",
-        "Obtain 2 Callisto or Artio uniques",
-        "Obtain 2 Chaos Fanatic uniques",
-        "Obtain 2 Hueycoatl uniques",
+        null,
+        "Obtain any K'ril Tsutsaroth unique",
         "Obtain 2 Leviathan uniques",
-        "Obtain 4 Kraken uniques",
-        "Obtain 3 Hueycoatl uniques",
-        "Obtain any unique from the Fortis Colosseum",
-        "Obtain 3 Grotesque Guardians uniques",
-        "Obtain 6 Moons of Peril uniques",
+        "25x Last Man Standing points",
+        "Obtain 2 Araxxor uniques",
+        "Obtain 2 Dagannoth Kings uniques",
+        "Obtain any Commander Zilyana unique",
+        "Obtain 2 Unsired from Abyssal Sire",
+        "Obtain 2 Gauntlet Uniques",
+        "Obtain 5 Amoxliatl uniques",
+        "Obtain 2 Hueycoatl uniques",
+        "Obtain any Kree'arra unique",
+        "Obtain 2 Callisto or Artio uniques",
+        "Obtain any General Graardor unique",
+        "Obtain 2 Cerberus uniques",
+        "Obtain any Corporeal Beast unique",
+        "Obtain any King Black Dragon unique",
+        "Obtain 2 Crazy Archaeologist uniques",
+        "Obtain 2 Grotesque Guardians uniques",
+        "Obtain 2 Kalphite Queen uniques",
+        "Obtain 3 Kraken uniques",
+        "Obtain 2 Duke Sucellus uniques",
+        "Obtain 2 Alchemical Hydra Uniques",
+        "Obtain 2 Chaos Fanatic uniques",
+        null,
+        "Obtain 3 Crazy Archaeologist uniques",
+        "Obtain 3 Duke Sucellus uniques",
         "Obtain 3 Chaos Fanatic uniques",
-        "Obtain 2 K'ril Tsutsaroth uniques",
-        "Obtain 3 Leviathan uniques",
         "Obtain 3 Araxxor uniques",
+        "Obtain 2 Kree'arra uniques",
+        "Obtain 2 Corporeal Beast uniques",
+        "Obtain 2 K'ril Tsutsaroth uniques",
         "Obtain 2 General Graardor uniques",
+        "Obtain 3 Dagannoth Kings uniques",
+        null,
+        "Obtain 3 Gauntlet Uniques",
+        "Obtain 3 Callisto or Artio uniques",
+        "Obtain 4 Kraken uniques",
+        "Obtain 3 Cerberus uniques",
+        "Obtain 3 Grotesque Guardians uniques",
+        "Obtain any unique from the Fortis Colosseum",
+        "Obtain 3 Alchemical Hydra uniques",
         "Obtain 3 Kalphite Queen uniques",
         "Obtain 2 Commander Zilyana uniques",
-        "Obtain 3 Duke Sucellus uniques",
-        "Obtain 2 Kree'arra uniques",
-        null,
-        null,
-        "Obtain 3 Unsired from Abyssal Sire",
         "Obtain 6 Barrows uniques",
-        "Obtain 2 Corporeal Beast uniques",
-        "Obtain 3 Dagannoth Kings uniques",
-        "Obtain 3 Alchemical Hydra uniques",
-        "Obtain 3 Cerberus uniques",
-        "Obtain 3 Callisto or Artio uniques",
-        "Obtain 3 Crazy Archaeologist uniques",
-        "Obtain 3 Gauntlet Uniques",
+        "Obtain 3 Hueycoatl uniques",
+        null,
+        "Obtain 3 Leviathan uniques",
+        "Obtain 3 Unsired from Abyssal Sire",
+        "Obtain 3 K'ril Tsutsaroth uniques",
+        null,
+        "Obtain 3 Kree'arra uniques",
+        "Obtain 3 General Graardor uniques",
+        "Complete the Fortis Colosseum",
+        "Obtain 3 Commander Zilyana uniques",
+        "Complete a full set of one of the Barrows Brothers",
         "Obtain 3 Corporeal Beast uniques",
+        "Obtain 2 uniques from the Fortis Colosseum",
+        "Obtain the Pet Chaos Elemental",
+        null,
         "Obtain 4 Cerberus uniques",
+        "Obtain 4 Gauntlet Uniques",
+        "Obtain 4 Alchemical Hydra uniques",
+        null,
+        "Complete the Inferno",
         null,
         "Obtain 4 Unsired from Abyssal Sire",
-        "Obtain 3 Kree'arra uniques",
-        "Obtain the Pet Chaos Elemental",
-        "Obtain 4 Araxxor uniques",
-        "Obtain 2 uniques from the Fortis Colosseum",
-        "Obtain 3 General Graardor uniques",
-        "Obtain all 4 Dagannoth Kings Rings",
-        "Complete a full Moons of Peril set",
         "Obtain 4 Duke Sucellus uniques",
-        "Complete the Inferno",
-        "Obtain 5 Kraken uniques",
+        "Obtain all 4 Dagannoth Kings Rings",
+        "Obtain 4 Araxxor uniques",
         "Obtain 4 Leviathan uniques",
-        "Obtain 3 K'ril Tsutsaroth uniques",
-        "Obtain 4 Gauntlet Uniques",
-        null,
-        "Obtain 3 Commander Zilyana uniques",
-        "Obtain 2 Nex uniques",
-        "Complete the Fortis Colosseum",
+        "Obtain 5 Kraken uniques",
         "Obtain 4 Callisto or Artio uniques",
-        "Complete a full set of one of the Barrows Brothers",
-        "Obtain 4 Alchemical Hydra uniques",
         "Finish"
       ],
       "snakes": [
         [
-          92,
-          19
+          85,
+          55
         ],
         [
-          77,
-          74
+          50,
+          27
         ],
         [
-          65,
-          51
+          20,
+          5
+        ],
+        [
+          91,
+          41
+        ],
+        [
+          76,
+          25
+        ],
+        [
+          89,
+          46
         ]
       ],
       "ladders": [
         [
+          72,
+          98
+        ],
+        [
           3,
-          6
+          92
         ],
         [
-          64,
-          88
+          60,
+          97
         ],
         [
-          33,
-          60
+          26,
+          68
         ],
         [
-          9,
-          39
+          22,
+          58
+        ],
+        [
+          14,
+          24
         ]
       ],
       "pawns": {
-        "Team 1": [
-          0,
-          5
-        ]
+        "Team 1": {
+          "positions": [
+            0,
+            2,
+            4,
+            8
+          ],
+          "reverts": [
+            {
+              "previous_position": 92,
+              "reverted_position": 2,
+              "reason": "Re-roll",
+              "reverted_by": "smacksmackk"
+            },
+            {
+              "previous_position": 2,
+              "reverted_position": 6,
+              "reason": "No reason provided",
+              "reverted_by": "smacksmackk"
+            },
+            {
+              "previous_position": 2,
+              "reverted_position": 6,
+              "reason": "No reason provided",
+              "reverted_by": "smacksmackk"
+            },
+            {
+              "previous_position": 9,
+              "reverted_position": 4,
+              "reason": "Re-roll",
+              "reverted_by": "smacksmackk"
+            }
+          ]
+        }
       }
     }
   }
