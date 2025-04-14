@@ -300,108 +300,130 @@ client.teams = client.load_teams()
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_file="./data/snakes_and_ladders_tasks.json"):
-  """Generates a random snakes and ladders board with tasks populated."""
-  board = [None] * (board_size * board_size)  # Initialize board with None
-  snakes = []
-  ladders = []
-  positions = list(range(1, board_size * board_size - 1))  # Exclude 0 and the last square
+    """Generates a random snakes and ladders board with tasks populated, strictly limiting to 25 tasks per difficulty range."""
+    board = [None] * (board_size * board_size)  # Initialize board with None
+    snakes = []
+    ladders = []
+    positions = list(range(1, board_size * board_size - 1))  # Exclude 0 and the last square
 
-  # Generate snakes
-  for _ in range(num_snakes):
-    if len(positions) < 2:
-      break  # Not enough positions for a snake
-    head, tail = random.sample(positions, 2)
-    if head > tail:
-      snakes.append((head, tail))
-      positions.remove(head)
-      positions.remove(tail)
+    # Generate snakes
+    for _ in range(num_snakes):
+        if len(positions) < 2:
+            break  # Not enough positions for a snake
+        head, tail = random.sample(positions, 2)
+        if head > tail:
+            snakes.append((head, tail))
+            positions.remove(head)
+            positions.remove(tail)
 
-  # Generate ladders
-  for _ in range(num_ladders):
-    if len(positions) < 2:
-      break  # Not enough positions for a ladder
-    bottom, top = random.sample(positions, 2)
-    if bottom < top:
-      ladders.append((bottom, top))
-      positions.remove(bottom)
-      positions.remove(top)
+    # Generate ladders
+    for _ in range(num_ladders):
+        if len(positions) < 2:
+            break  # Not enough positions for a ladder
+        bottom, top = random.sample(positions, 2)
+        if bottom < top:
+            ladders.append((bottom, top))
+            positions.remove(bottom)
+            positions.remove(top)
 
-  # Load tasks from JSON and sort by difficulty
-  try:
-    with open(tasks_file, "r") as f:
-      tasks_data = json.load(f)
-      if isinstance(tasks_data, list):
-        tasks = tasks_data
-      else:
-        tasks = tasks_data.get("tasks", [])
+    # Load tasks from JSON and sort by difficulty
+    try:
+        with open(tasks_file, "r") as f:
+            tasks_data = json.load(f)
+            if isinstance(tasks_data, list):
+                tasks = tasks_data
+            else:
+                tasks = tasks_data.get("tasks", [])
 
-    # Sort tasks by difficulty: Easy, Medium, Hard
-    difficulty_order = {"Easy": 0, "Medium": 1, "Hard": 2, "Elite": 3}
-    tasks.sort(key=lambda task: difficulty_order.get(task.get("difficulty", "Medium")))  # Default to Medium if no difficulty
+        # Sort tasks by difficulty: Easy, Medium, Hard, Expert
+        difficulty_order = {"Easy": 0, "Medium": 1, "Hard": 2, "Expert": 3}
+        tasks.sort(key=lambda task: difficulty_order.get(task.get("difficulty", "Medium")))  # Default to Medium if no difficulty
 
-  except FileNotFoundError:
-    print(f"Error: Tasks file '{tasks_file}' not found.")
-    return board, snakes, ladders
+    except FileNotFoundError:
+        print(f"Error: Tasks file '{tasks_file}' not found.")
+        return board, snakes, ladders
 
-  # Populate the board with tasks, excluding snake/ladder ends
-  num_tasks = min(len(tasks), board_size * board_size - 2 - len(snakes) - len(ladders))  # Leave room for start, finish, snake/ladder ends
-  used_positions = set()  # Keep track of positions already used.
+    used_positions = set()  # Keep track of positions already used.
 
-  # Calculate the number of tasks for each difficulty level
-  easy_count = min(num_tasks // 3, 30)
-  medium_count = min((num_tasks - easy_count) // 2, 30)
-  hard_count = min((num_tasks - easy_count - medium_count) // 2, 30)
-  elite_count = num_tasks - easy_count - medium_count - hard_count
+    # Distribute tasks based on difficulty, strictly limiting to 25 per range
+    task_index = 0
+    difficulty_ranges = {
+        "Easy": (1, board_size * board_size // 4),
+        "Medium": (board_size * board_size // 4, 2 * board_size * board_size // 4),
+        "Hard": (2 * board_size * board_size // 4, 3 * board_size * board_size // 4),
+        "Expert": (3 * board_size * board_size // 4, board_size * board_size - 1)
+    }
 
-  # Distribute tasks based on difficulty
-  task_index = 0
-  difficulty_counts = {"Easy": easy_count, "Medium": medium_count, "Hard": hard_count, "Elite": elite_count}
-  difficulty_ranges = {
-    "Easy": (1, board_size * board_size // 4),
-    "Medium": (board_size * board_size // 4, 2 * board_size * board_size // 4),
-    "Hard": (2 * board_size * board_size // 4, 3 * board_size * board_size // 4),
-    "Elite": (3 * board_size * board_size // 4, board_size * board_size - 1)
-  }
+    difficulty_counts = {"Easy": 0, "Medium": 0, "Hard": 0, "Expert": 0}
 
-  for difficulty, count in difficulty_counts.items():
-    min_pos, max_pos = difficulty_ranges[difficulty]
-    for _ in range(count):
-      valid_position_found = False
-      while not valid_position_found:
-        position = random.randint(min_pos, max_pos - 1)  # Get a random position.
-        if position not in used_positions and position not in [head for head, tail in snakes] and position not in [bottom for bottom, top in ladders]:
-          # Find the next task with the correct difficulty
-          next_task_index = task_index
-          while next_task_index < len(tasks):
-            if tasks[next_task_index]["difficulty"] == difficulty:
-              board[position] = tasks[next_task_index]["task"]
-              used_positions.add(position)
-              valid_position_found = True
-              task_index = next_task_index + 1
-              break
-            next_task_index += 1
-          if not valid_position_found:
-            # If no more tasks of the correct difficulty are found, break the loop
-            break
+    # Place easy tasks
+    available_positions = [pos for pos in range(difficulty_ranges["Easy"][0], difficulty_ranges["Easy"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
+    random.shuffle(available_positions)
+    while task_index < len(tasks) and difficulty_counts["Easy"] < 25 and available_positions:
+        if tasks[task_index]["difficulty"] == "Easy":
+            position = available_positions.pop(0)
+            board[position] = tasks[task_index]["task"]
+            used_positions.add(position)
+            difficulty_counts["Easy"] += 1
+            task_index += 1
+        else:
+            task_index += 1
 
+    # Place medium tasks
+    available_positions = [pos for pos in range(difficulty_ranges["Medium"][0], difficulty_ranges["Medium"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
+    random.shuffle(available_positions)
+    while task_index < len(tasks) and difficulty_counts["Medium"] < 25 and available_positions:
+        if tasks[task_index]["difficulty"] == "Medium":
+            position = available_positions.pop(0)
+            board[position] = tasks[task_index]["task"]
+            used_positions.add(position)
+            difficulty_counts["Medium"] += 1
+            task_index += 1
+        else:
+            task_index += 1
 
-  # Add tasks to snake tails and ladder tops
+    # Place hard tasks
+    available_positions = [pos for pos in range(difficulty_ranges["Hard"][0], difficulty_ranges["Hard"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
+    random.shuffle(available_positions)
+    while task_index < len(tasks) and difficulty_counts["Hard"] < 25 and available_positions:
+        if tasks[task_index]["difficulty"] == "Hard":
+            position = available_positions.pop(0)
+            board[position] = tasks[task_index]["task"]
+            used_positions.add(position)
+            difficulty_counts["Hard"] += 1
+            task_index += 1
+        else:
+            task_index += 1
+
+    # Place expert tasks in remaining slots
+    available_positions = [pos for pos in range(difficulty_ranges["Expert"][0], difficulty_ranges["Expert"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
+    random.shuffle(available_positions)
+    while task_index < len(tasks) and available_positions:
+        if tasks[task_index]["difficulty"] == "Expert":
+            position = available_positions.pop(0)
+            board[position] = tasks[task_index]["task"]
+            used_positions.add(position)
+            task_index += 1
+        else:
+            task_index += 1
+
+    # Add tasks to snake tails and ladder tops
     for head, tail in snakes:
-      if board[tail] is None:
-        if task_index < len(tasks):
-          board[tail] = tasks[task_index]["task"]
-          task_index += 1
+        if board[tail] is None:
+            if task_index < len(tasks):
+                board[tail] = tasks[task_index]["task"]
+                task_index += 1
     for bottom, top in ladders:
-      if board[top] is None:
-        if task_index < len(tasks):
-          board[top] = tasks[task_index]["task"]
-          task_index += 1
+        if board[top] is None:
+            if task_index < len(tasks):
+                board[top] = tasks[task_index]["task"]
+                task_index += 1
 
-  # Add start and finish
-  board[0] = "Start"
-  board[board_size * board_size - 1] = "Finish"
+    # Add start and finish
+    board[0] = "Start"
+    board[board_size * board_size - 1] = "Finish"
 
-  return board, snakes, ladders
+    return board, snakes, ladders
 
 def generate_bingo_board(board_size, drops_data):
   """Generates a bingo board with random boss names and images from drops_data, with center 'Recruit A New Member'."""
@@ -3230,9 +3252,9 @@ async def roll_dice(interaction: discord.Interaction, event_name: str):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 @client.tree.command(name="revert_roll", description="Team Leader: Reverts the last dice roll for Snakes and Ladders.")
-@app_commands.describe(event_name="The name of the Snakes and Ladders event.")
+@app_commands.describe(event_name="The name of the Snakes and Ladders event.", reason="Reason for reverting the roll.")
 @app_commands.autocomplete(event_name=snakes_ladders_event_autocomplete)
-async def revert_roll(interaction: discord.Interaction, event_name: str):
+async def revert_roll(interaction: discord.Interaction, event_name: str, reason: str="No reason provided"):
     logging.info(f"User {interaction.user.name} used /revert_roll for {event_name}.")
     if event_name not in client.events:
         await interaction.response.send_message("Event not found.", ephemeral=True)
