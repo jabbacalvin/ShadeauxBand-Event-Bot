@@ -1,13 +1,8 @@
 {
-  "Test1": {
-    "Team 1": {
-      "color": "#FF0000",
+  "Snakes and Ladders April": {
+    "Zamorak": {
+      "color": "#be2633",
       "members": [
-        {
-          "role": "member",
-          "discord_user": "titaniumbutter",
-          "osrs_ign": "ovo_izzy"
-        },
         {
           "role": "leader",
           "discord_user": "dufwha",
@@ -15,8 +10,113 @@
         },
         {
           "role": "leader",
-          "discord_user": "smacksmackk",
-          "osrs_ign": "zPoop"
+          "discord_user": "paulie_225",
+          "osrs_ign": "Deltaman12"
+        },
+        {
+          "role": "member",
+          "discord_user": "jordan00186",
+          "osrs_ign": "Jortsdan"
+        },
+        {
+          "role": "member",
+          "discord_user": "bob0_o",
+          "osrs_ign": "ilIBoBIli"
+        },
+        {
+          "role": "member",
+          "discord_user": "ravenblacklac",
+          "osrs_ign": "Porkless Pig"
+        }
+      ]
+    },
+    "Armadyl": {
+      "color": "#1045c1",
+      "members": [
+        {
+          "role": "leader",
+          "discord_user": "titaniumbutter",
+          "osrs_ign": "OvO_Izzy"
+        },
+        {
+          "role": "leader",
+          "discord_user": "disciple_b",
+          "osrs_ign": "Disciple_B"
+        },
+        {
+          "role": "member",
+          "discord_user": "ghostofmozart730",
+          "osrs_ign": "Mozart730"
+        },
+        {
+          "role": "member",
+          "discord_user": "sgwhale",
+          "osrs_ign": "Docking"
+        },
+        {
+          "role": "member",
+          "discord_user": "announcez",
+          "osrs_ign": "Simple Skunk"
+        }
+      ]
+    },
+    "Bandos": {
+      "color": "#da7614",
+      "members": [
+        {
+          "role": "leader",
+          "discord_user": "hotshot_chris",
+          "osrs_ign": "Chris_Marko"
+        },
+        {
+          "role": "member",
+          "discord_user": "beeflesscow",
+          "osrs_ign": "Beefless Cow"
+        },
+        {
+          "role": "member",
+          "discord_user": "theeabraxas",
+          "osrs_ign": "Arexic"
+        },
+        {
+          "role": "leader",
+          "discord_user": "luketheduke09",
+          "osrs_ign": "ligma weewee"
+        },
+        {
+          "role": "member",
+          "discord_user": "fadingawayy",
+          "osrs_ign": "FadingAwayy"
+        }
+      ]
+    },
+    "Guthix": {
+      "color": "#48de6f",
+      "members": [
+        {
+          "role": "leader",
+          "discord_user": "marc07733",
+          "osrs_ign": "Tac Maniac"
+        },
+        {
+          "role": "member",
+          "discord_user": "kjack69",
+          "osrs_ign": "whelping box"
+        },
+        {
+          "role": "member",
+          "discord_user": "sebii5",
+          "osrs_ign": "Aluzion"
+        },
+        {
+          "role": "member",
+          "discord_user": "duff_er",
+          "osrs_ign": "Duff_er"
+        },
+        {
+          "role": "member",
+          "discord_user": "phat_oo",
+          "osrs_ign": "FearlessChkn"
         }
       ]
     }

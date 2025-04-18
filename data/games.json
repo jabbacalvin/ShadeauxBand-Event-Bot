@@ -1,194 +1,142 @@
 {
-  "bd4ac8aa-5a30-4131-a533-6da0a988355e": {
+  "ae3914d5-9bb1-402a-be25-27a3617eb6c5": {
     "game_data": {
       "board": [
         "Start",
-        "Obtain any Cerberus unique",
-        "Obtain 3 Amoxliatl unique",
-        null,
-        "Obtain any Callisto or Artio unique",
-        "Obtain any Duke Sucellus unique",
+        "Obtain any Grotesque Guardians unique",
         "Obtain any Leviathan unique",
+        "Obtain 2 Scurrius uniques",
         "Obtain any Crazy Archaeologist unique",
-        "Obtain any Phantom Muspah unique",
-        "Obtain any Kraken unique",
-        "Obtain any Gauntlet Unique",
-        "Obtain any Chaos Fanatic unique",
-        "Obtain an Unsired from Abyssal Sire",
+        "Obtain 2 Barrows uniques",
+        "Obtain any Vardorvis unique",
         "Obtain 2 Moons of Peril uniques",
         null,
-        "Obtain any Kalphite Queen unique",
-        "Obtain any Araxxor unique",
-        "Obtain any Hueycoatl unique",
-        "Obtain any Grotesque Guardians unique",
-        "Obtain any Alchemical Hydra unique",
-        null,
         "Obtain 2 Royal Titans uniques",
+        "Obtain any Cerberus unique",
+        "Obtain any Vet'ion or Calvar'ion unique",
+        "Obtain an Unsired from Abyssal Sire",
         null,
-        "Obtain any Dagannoth Kings unique",
-        "Obtain 2 Barrows uniques",
-        "Obtain 4 Barrows uniques",
+        "Obtain any Gauntlet Unique",
         null,
-        "Obtain any K'ril Tsutsaroth unique",
-        "Obtain 2 Leviathan uniques",
-        "25x Last Man Standing points",
-        "Obtain 2 Araxxor uniques",
-        "Obtain 2 Dagannoth Kings uniques",
-        "Obtain any Commander Zilyana unique",
+        null,
+        "Obtain any Duke Sucellus unique",
+        "Obtain any Hueycoatl unique",
+        "Obtain any Whisperer unique",
+        "Obtain any Demonic Gorilla unique",
+        "Obtain any Phantom Muspah unique",
+        null,
+        "Obtain any Vorkath unique",
+        "Obtain any Venenatis or Spindel unique",
+        "Obtain 2 Vorkath uniques",
+        "Obtain 2 Whisperer uniques",
+        "Obtain any Theatre of Blood unique",
         "Obtain 2 Unsired from Abyssal Sire",
-        "Obtain 2 Gauntlet Uniques",
-        "Obtain 5 Amoxliatl uniques",
-        "Obtain 2 Hueycoatl uniques",
-        "Obtain any Kree'arra unique",
-        "Obtain 2 Callisto or Artio uniques",
-        "Obtain any General Graardor unique",
-        "Obtain 2 Cerberus uniques",
-        "Obtain any Corporeal Beast unique",
-        "Obtain any King Black Dragon unique",
-        "Obtain 2 Crazy Archaeologist uniques",
-        "Obtain 2 Grotesque Guardians uniques",
+        "Obtain any Commander Zilyana unique",
+        "Obtain 2 Phantom Muspah uniques",
         "Obtain 2 Kalphite Queen uniques",
-        "Obtain 3 Kraken uniques",
-        "Obtain 2 Duke Sucellus uniques",
-        "Obtain 2 Alchemical Hydra Uniques",
+        "Obtain 2 Vet'ion or Calvar'ion uniques",
+        "Obtain 4 Moons of Peril uniques",
+        "Obtain 2 Cerberus uniques",
+        "Obtain 2 Araxxor uniques",
+        "Obtain any K'ril Tsutsaroth unique",
+        "Obtain 2 Callisto or Artio uniques",
+        "Obtain 2 Leviathan uniques",
+        "Obtain 2 Crazy Archaeologist uniques",
+        "Obtain 4 Scurrius uniques",
+        "Obtain any Tombs of Amascut unique",
+        "Obtain 4 Royal Titans uniques",
+        null,
+        null,
+        "Obtain any Sarachnis unique",
         "Obtain 2 Chaos Fanatic uniques",
+        "Obtain 2 Dagannoth Kings uniques",
+        "Obtain 3 Kraken uniques",
         null,
-        "Obtain 3 Crazy Archaeologist uniques",
-        "Obtain 3 Duke Sucellus uniques",
-        "Obtain 3 Chaos Fanatic uniques",
-        "Obtain 3 Araxxor uniques",
-        "Obtain 2 Kree'arra uniques",
-        "Obtain 2 Corporeal Beast uniques",
-        "Obtain 2 K'ril Tsutsaroth uniques",
-        "Obtain 2 General Graardor uniques",
-        "Obtain 3 Dagannoth Kings uniques",
-        null,
-        "Obtain 3 Gauntlet Uniques",
-        "Obtain 3 Callisto or Artio uniques",
-        "Obtain 4 Kraken uniques",
-        "Obtain 3 Cerberus uniques",
-        "Obtain 3 Grotesque Guardians uniques",
-        "Obtain any unique from the Fortis Colosseum",
-        "Obtain 3 Alchemical Hydra uniques",
         "Obtain 3 Kalphite Queen uniques",
+        "Obtain 3 Demonic Gorilla uniques",
+        "Obtain 2 General Graardor uniques",
+        "Obtain 2 Chambers of Xeric uniques",
+        "Obtain 3 Vet'ion or Calvar'ion uniques",
+        null,
+        "Obtain any unique from the Fortis Colosseum",
+        "Obtain 2 Theatre of Blood uniques",
+        "Obtain 3 Alchemical Hydra uniques",
         "Obtain 2 Commander Zilyana uniques",
-        "Obtain 6 Barrows uniques",
-        "Obtain 3 Hueycoatl uniques",
+        "Obtain 2 K'ril Tsutsaroth uniques",
         null,
+        "Obtain 4 Kraken uniques",
+        "Obtain a Blood Shard from a Vyrewatch Sentinel",
+        "Obtain 3 Callisto or Artio uniques",
+        "Obtain 3 Tormented Demon uniques",
+        "Obtain 3 Venenatis or Spindel uniques",
+        "Obtain any Nex unique",
+        "Obtain 4 Vorkath uniques",
+        "Obtain 3 Crazy Archaeologist uniques",
+        "Obtain 2 Corporeal Beast uniques",
+        "Obtain 3 Gauntlet Uniques",
+        "Obtain 6 Moons of Peril uniques",
         "Obtain 3 Leviathan uniques",
-        "Obtain 3 Unsired from Abyssal Sire",
-        "Obtain 3 K'ril Tsutsaroth uniques",
         null,
-        "Obtain 3 Kree'arra uniques",
-        "Obtain 3 General Graardor uniques",
-        "Complete the Fortis Colosseum",
-        "Obtain 3 Commander Zilyana uniques",
-        "Complete a full set of one of the Barrows Brothers",
+        "Obtain 4 Leviathan uniques",
+        "Obtain 3 Chambers of Xeric uniques",
         "Obtain 3 Corporeal Beast uniques",
-        "Obtain 2 uniques from the Fortis Colosseum",
-        "Obtain the Pet Chaos Elemental",
-        null,
         "Obtain 4 Cerberus uniques",
-        "Obtain 4 Gauntlet Uniques",
-        "Obtain 4 Alchemical Hydra uniques",
+        "Obtain 4 Vet'ion or Calvar'ion uniques",
+        "Obtain 4 Whisperer uniques",
+        "Obtain 3 Tombs of Amascut uniques",
+        null,
+        "Obtain 4 Zulrah uniques",
+        "Obtain 3 K'ril Tsutsaroth uniques",
+        "Obtain 4 Araxxor uniques",
         null,
         "Complete the Inferno",
-        null,
-        "Obtain 4 Unsired from Abyssal Sire",
+        "Obtain 2 uniques from the Fortis Colosseum",
+        "Obtain 3 Commander Zilyana uniques",
+        "Obtain 4 Thermonuclear Smoke Devil uniques",
+        "Obtain the Pet Chaos Elemental",
         "Obtain 4 Duke Sucellus uniques",
-        "Obtain all 4 Dagannoth Kings Rings",
-        "Obtain 4 Araxxor uniques",
-        "Obtain 4 Leviathan uniques",
-        "Obtain 5 Kraken uniques",
-        "Obtain 4 Callisto or Artio uniques",
+        "Obtain 4 Unsired from Abyssal Sire",
+        "Complete a full set of one of the Barrows Brothers",
+        "Obtain 4 Gauntlet Uniques",
+        "Obtain 3 Kree'arra uniques",
+        null,
+        "Obtain 2 Nightmare uniques",
         "Finish"
       ],
       "snakes": [
-        [
-          85,
-          55
-        ],
-        [
-          50,
-          27
-        ],
-        [
-          20,
-          5
-        ],
-        [
-          91,
-          41
-        ],
-        [
-          76,
-          25
-        ],
-        [
-          89,
-          46
-        ]
+        [43, 24],
+        [13, 2],
+        [49, 12],
+        [97, 51],
+        [74, 32],
+        [61, 18],
+        [44, 9]
       ],
       "ladders": [
-        [
-          72,
-          98
-        ],
-        [
-          3,
-          92
-        ],
-        [
-          60,
-          97
-        ],
-        [
-          26,
-          68
-        ],
-        [
-          22,
-          58
-        ],
-        [
-          14,
-          24
-        ]
+        [16, 45],
+        [82, 95],
+        [22, 66],
+        [55, 78],
+        [8, 27],
+        [15, 50],
+        [86, 90]
       ],
       "pawns": {
-        "Team 1": {
-          "positions": [
-            0,
-            2,
-            4,
-            8
-          ],
-          "reverts": [
-            {
-              "previous_position": 92,
-              "reverted_position": 2,
-              "reason": "Re-roll",
-              "reverted_by": "smacksmackk"
-            },
-            {
-              "previous_position": 2,
-              "reverted_position": 6,
-              "reason": "No reason provided",
-              "reverted_by": "smacksmackk"
-            },
-            {
-              "previous_position": 2,
-              "reverted_position": 6,
-              "reason": "No reason provided",
-              "reverted_by": "smacksmackk"
-            },
-            {
-              "previous_position": 9,
-              "reverted_position": 4,
-              "reason": "Re-roll",
-              "reverted_by": "smacksmackk"
-            }
-          ]
+        "Zamorak": {
+          "positions": [0],
+          "reverts": []
+        },
+        "Armadyl": {
+          "positions": [0],
+          "reverts": []
+        },
+        "Bandos": {
+          "positions": [0],
+          "reverts": []
+        },
+        "Guthix": {
+          "positions": [0],
+          "reverts": []
         }
       }
     }

@@ -300,7 +300,8 @@ client.teams = client.load_teams()
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tasks_file="./data/snakes_and_ladders_tasks.json"):
-    """Generates a random snakes and ladders board with tasks populated, strictly limiting to 25 tasks per difficulty range."""
+    """Generates a random snakes and ladders board with tasks populated, strictly limiting to 25 tasks per difficulty range,
+    and randomizing the order of tasks within each difficulty."""
     board = [None] * (board_size * board_size)  # Initialize board with None
     snakes = []
     ladders = []
@@ -326,27 +327,37 @@ async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tas
             positions.remove(bottom)
             positions.remove(top)
 
-    # Load tasks from JSON and sort by difficulty
+    # Load tasks from JSON
+    easy_tasks = []
+    medium_tasks = []
+    hard_tasks = []
+    expert_tasks = []
     try:
         with open(tasks_file, "r") as f:
             tasks_data = json.load(f)
-            if isinstance(tasks_data, list):
-                tasks = tasks_data
-            else:
-                tasks = tasks_data.get("tasks", [])
-
-        # Sort tasks by difficulty: Easy, Medium, Hard, Expert
-        difficulty_order = {"Easy": 0, "Medium": 1, "Hard": 2, "Expert": 3}
-        tasks.sort(key=lambda task: difficulty_order.get(task.get("difficulty", "Medium")))  # Default to Medium if no difficulty
-
+            tasks = tasks_data if isinstance(tasks_data, list) else tasks_data.get("tasks", [])
+            for task in tasks:
+                difficulty = task.get("difficulty", "Medium")
+                if difficulty == "Easy":
+                    easy_tasks.append(task["task"])
+                elif difficulty == "Medium":
+                    medium_tasks.append(task["task"])
+                elif difficulty == "Hard":
+                    hard_tasks.append(task["task"])
+                elif difficulty == "Expert":
+                    expert_tasks.append(task["task"])
     except FileNotFoundError:
         print(f"Error: Tasks file '{tasks_file}' not found.")
         return board, snakes, ladders
 
+    # Shuffle tasks within each difficulty
+    random.shuffle(easy_tasks)
+    random.shuffle(medium_tasks)
+    random.shuffle(hard_tasks)
+    random.shuffle(expert_tasks)
+
     used_positions = set()  # Keep track of positions already used.
 
-    # Distribute tasks based on difficulty, strictly limiting to 25 per range
-    task_index = 0
     difficulty_ranges = {
         "Easy": (1, board_size * board_size // 4),
         "Medium": (board_size * board_size // 4, 2 * board_size * board_size // 4),
@@ -359,65 +370,80 @@ async def generate_snakes_ladders_board(board_size, num_snakes, num_ladders, tas
     # Place easy tasks
     available_positions = [pos for pos in range(difficulty_ranges["Easy"][0], difficulty_ranges["Easy"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
     random.shuffle(available_positions)
-    while task_index < len(tasks) and difficulty_counts["Easy"] < 25 and available_positions:
-        if tasks[task_index]["difficulty"] == "Easy":
-            position = available_positions.pop(0)
-            board[position] = tasks[task_index]["task"]
-            used_positions.add(position)
-            difficulty_counts["Easy"] += 1
-            task_index += 1
-        else:
-            task_index += 1
+    easy_task_index = 0
+    while easy_task_index < len(easy_tasks) and difficulty_counts["Easy"] < 25 and available_positions:
+        position = available_positions.pop(0)
+        board[position] = easy_tasks[easy_task_index]
+        used_positions.add(position)
+        difficulty_counts["Easy"] += 1
+        easy_task_index += 1
 
     # Place medium tasks
     available_positions = [pos for pos in range(difficulty_ranges["Medium"][0], difficulty_ranges["Medium"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
     random.shuffle(available_positions)
-    while task_index < len(tasks) and difficulty_counts["Medium"] < 25 and available_positions:
-        if tasks[task_index]["difficulty"] == "Medium":
-            position = available_positions.pop(0)
-            board[position] = tasks[task_index]["task"]
-            used_positions.add(position)
-            difficulty_counts["Medium"] += 1
-            task_index += 1
-        else:
-            task_index += 1
+    medium_task_index = 0
+    while medium_task_index < len(medium_tasks) and difficulty_counts["Medium"] < 25 and available_positions:
+        position = available_positions.pop(0)
+        board[position] = medium_tasks[medium_task_index]
+        used_positions.add(position)
+        difficulty_counts["Medium"] += 1
+        medium_task_index += 1
 
     # Place hard tasks
     available_positions = [pos for pos in range(difficulty_ranges["Hard"][0], difficulty_ranges["Hard"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
     random.shuffle(available_positions)
-    while task_index < len(tasks) and difficulty_counts["Hard"] < 25 and available_positions:
-        if tasks[task_index]["difficulty"] == "Hard":
-            position = available_positions.pop(0)
-            board[position] = tasks[task_index]["task"]
-            used_positions.add(position)
-            difficulty_counts["Hard"] += 1
-            task_index += 1
-        else:
-            task_index += 1
+    hard_task_index = 0
+    while hard_task_index < len(hard_tasks) and difficulty_counts["Hard"] < 25 and available_positions:
+        position = available_positions.pop(0)
+        board[position] = hard_tasks[hard_task_index]
+        used_positions.add(position)
+        difficulty_counts["Hard"] += 1
+        hard_task_index += 1
 
-    # Place expert tasks in remaining slots
+    # Place expert tasks
     available_positions = [pos for pos in range(difficulty_ranges["Expert"][0], difficulty_ranges["Expert"][1]) if pos not in used_positions and pos not in [head for head, tail in snakes] and pos not in [bottom for bottom, top in ladders]]
     random.shuffle(available_positions)
-    while task_index < len(tasks) and available_positions:
-        if tasks[task_index]["difficulty"] == "Expert":
-            position = available_positions.pop(0)
-            board[position] = tasks[task_index]["task"]
-            used_positions.add(position)
-            task_index += 1
-        else:
-            task_index += 1
+    expert_task_index = 0
+    while expert_task_index < len(expert_tasks) and difficulty_counts["Expert"] < 25 and available_positions:
+        position = available_positions.pop(0)
+        board[position] = expert_tasks[expert_task_index]
+        used_positions.add(position)
+        difficulty_counts["Expert"] += 1
+        expert_task_index += 1
 
-    # Add tasks to snake tails and ladder tops
+    # Add remaining tasks to snake tails and ladder tops
+    easy_task_index = 0
+    medium_task_index = 0
+    hard_task_index = 0
+    expert_task_index = 0
     for head, tail in snakes:
         if board[tail] is None:
-            if task_index < len(tasks):
-                board[tail] = tasks[task_index]["task"]
-                task_index += 1
+            if easy_task_index < len(easy_tasks):
+                board[tail] = easy_tasks[easy_task_index]
+                easy_task_index += 1
+            elif medium_task_index < len(medium_tasks):
+                board[tail] = medium_tasks[medium_task_index]
+                medium_task_index += 1
+            elif hard_task_index < len(hard_tasks):
+                board[tail] = hard_tasks[hard_task_index]
+                hard_task_index += 1
+            elif expert_task_index < len(expert_tasks):
+                board[tail] = expert_tasks[expert_task_index]
+                expert_task_index += 1
     for bottom, top in ladders:
         if board[top] is None:
-            if task_index < len(tasks):
-                board[top] = tasks[task_index]["task"]
-                task_index += 1
+            if easy_task_index < len(easy_tasks):
+                board[top] = easy_tasks[easy_task_index]
+                easy_task_index += 1
+            elif medium_task_index < len(medium_tasks):
+                board[top] = medium_tasks[medium_task_index]
+                medium_task_index += 1
+            elif hard_task_index < len(hard_tasks):
+                board[top] = hard_tasks[hard_task_index]
+                hard_task_index += 1
+            elif expert_task_index < len(expert_tasks):
+                board[top] = expert_tasks[expert_task_index]
+                expert_task_index += 1
 
     # Add start and finish
     board[0] = "Start"
@@ -501,7 +527,7 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
   img = Image.new("RGBA", (image_size, image_size), (43, 43, 43, 255))
   draw = ImageDraw.Draw(img)
   number_font = ImageFont.truetype("arialbd.ttf", 14)
-  font_size = 10
+  font_size = 13
   font = ImageFont.truetype("arialbd.ttf", font_size)
   bold_font = ImageFont.truetype("arialbd.ttf", 24)
 
@@ -547,7 +573,7 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
       # Draw cell text
       if board[cell_number]:
         text = str(board[cell_number])
-        wrapped_text = textwrap.wrap(text, width=18)
+        wrapped_text = textwrap.wrap(text, width=12, break_long_words=False)
         if text == "Start" or text == "Finish":
           text_width = draw.textbbox((0, 0), text, font=bold_font)[2] - draw.textbbox((0, 0), text, font=bold_font)[0]
           text_height = draw.textbbox((0, 0), text, font=bold_font)[3] - draw.textbbox((0, 0), text, font=bold_font)[1]
@@ -569,7 +595,7 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
     end_x = end_col * cell_size + cell_size // 2
     end_y = end_row * cell_size + cell_size // 2
 
-    green_color = (0, 128, 0, int(255 * 0.8))  # Green with 0.8 opacity
+    green_color = (0, 128, 0, int(255 * 0.5))  # Green with 0.5 opacity
 
     # Calculate wiggle points (smoke wave)
     num_segments = 50  # More segments for smoother curves
@@ -647,7 +673,7 @@ async def draw_snakes_ladders_board_image(board, snakes, ladders, pawns):
     end_y = end_row * cell_size + cell_size // 2
 
     ladder_width = 15
-    brown_color = (137, 81, 41, 200)
+    brown_color = (137, 81, 41, int(255 * 0.5))  # Brown with 0.5 opacity
 
     ladder_layer = Image.new("RGBA", (image_size, image_size), (0, 0, 0, 0))
     ladder_draw = ImageDraw.Draw(ladder_layer)
@@ -848,7 +874,14 @@ async def draw_and_send_board(interaction, game_data, teams):
     for team_name, team_data in teams.items():
         team_color = team_data.get("color", (245, 245, 220))
         pawn_data = game_data.get("pawns", {}).get(team_name, {"positions": [0]})
-        pawn_position = pawn_data.get("positions", [0])[-1] #get the latest position
+        pawn_positions = pawn_data.get("positions")
+
+        # Defensive check: Ensure pawn_positions is a list
+        if not isinstance(pawn_positions, list):
+            logging.error(f"Pawn positions for team {team_name} is not a list: {pawn_positions}. Using default [0].")
+            pawn_position = 0
+        else:
+            pawn_position = pawn_positions[-1] # get the latest position
 
         pawns.append({
             "name": team_name,
@@ -1935,54 +1968,54 @@ async def admin_event_unjoin(interaction: discord.Interaction, event_name: str, 
 
 @client.tree.command(name="admin_team_create", description="Admin: Create a new team for an event.")
 @app_commands.describe(
-  event_name="The name of the event.",
-  team_name="The name of the team.",
-  team_color="The color of the team (e.g. '#FF0000').",
+    event_name="The name of the event.",
+    team_name="The name of the team.",
+    team_color="The color of the team (e.g. '#FF0000').",
 )
 @app_commands.autocomplete(event_name=event_name_autocomplete)
 @app_commands.default_permissions(administrator=True)
 async def admin_team_create(interaction: discord.Interaction, event_name: str, team_name: str, team_color: str):
-  logging.info(f"Admin {interaction.user.name} used /admin_team_create to create team {team_name} for {event_name} with color {team_color}.")
+    logging.info(f"Admin {interaction.user.name} used /admin_team_create to create team {team_name} for {event_name} with color {team_color}.")
 
-  if event_name not in client.events:
-    await interaction.response.send_message("Event does not exist.", ephemeral=True)
-    return
+    if event_name not in client.events:
+        await interaction.response.send_message("Event does not exist.", ephemeral=True)
+        return
 
-  if team_name in client.teams.get(event_name, {}):
-    await interaction.response.send_message("Team name already exists for this event.", ephemeral=True)
-    return
+    if team_name in client.teams.get(event_name, {}):
+        await interaction.response.send_message("Team name already exists for this event.", ephemeral=True)
+        return
 
-  if event_name not in client.teams:
-    client.teams[event_name] = {}
+    if event_name not in client.teams:
+        client.teams[event_name] = {}
 
-  if not re.match(r'^#[0-9a-fA-F]{6}$', team_color):
-    await interaction.response.send_message("Invalid color code. Please use a 6-character hex code (e.g., '#FF0000').", ephemeral=True)
-    return
+    if not re.match(r'^#[0-9a-fA-F]{6}$', team_color):
+        await interaction.response.send_message("Invalid color code. Please use a 6-character hex code (e.g., '#FF0000').", ephemeral=True)
+        return
 
-  client.teams[event_name][team_name] = {
-    "color": team_color,
-    "members": []
-  }
-  client.save_teams()
+    client.teams[event_name][team_name] = {
+        "color": team_color,
+        "members": []
+    }
+    client.save_teams()
 
-  # Add pawn position if event is snakes_ladders
-  if client.events[event_name]["type"] == "snakes_ladders":
-      game_uuid = client.events[event_name]["game_id"]
-      if game_uuid in client.games:
-          game_data = client.games[game_uuid]["game_data"]
-          if "pawns" not in game_data:
-              game_data["pawns"] = {}  # Initialize pawns if not present
-          if team_name not in game_data["pawns"]:
-              game_data["pawns"][team_name] = 0  # Add pawn with initial position 0
-              client.save_games() # Save changes to the game object.
+    # Add pawn position if event is snakes_ladders
+    if client.events[event_name]["type"] == "snakes_ladders":
+        game_uuid = client.events[event_name]["game_id"]
+        if game_uuid in client.games:
+            game_data = client.games[game_uuid]["game_data"]
+            if "pawns" not in game_data:
+                game_data["pawns"] = {}  # Initialize pawns if not present
+            if team_name not in game_data["pawns"]:
+                game_data["pawns"][team_name] = {"positions": [0], "reverts": []} # Correct initialization
+                client.save_games() # Save changes to the game object.
 
-  embed = discord.Embed(
-    title=f"Team '{team_name}' Created!",
-    description=f"Team '{team_name}' created for {event_name}.",
-    color=int(team_color[1:], 16)  # Convert hex to int for embed color
-  )
-  embed.add_field(name="Team Color", value=team_color, inline=False)
-  await interaction.response.send_message(embed=embed, ephemeral=True)
+    embed = discord.Embed(
+        title=f"Team '{team_name}' Created!",
+        description=f"Team '{team_name}' created for {event_name}.",
+        color=int(team_color[1:], 16)  # Convert hex to int for embed color
+    )
+    embed.add_field(name="Team Color", value=team_color, inline=False)
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2734,17 +2767,19 @@ async def event_teams_view(interaction: discord.Interaction, event_name: str):
     title_embed = discord.Embed(title=f"Teams for {event_name}", color=discord.Color.greyple())
     embeds.append(title_embed)
 
-    for team_name, team_data in event_teams.items():
-        leaders = []
-        members = []
-        for member in team_data["members"]:
-            if member["role"] == "leader":
-                leaders.append(f"- {member['osrs_ign']}")
-            else:
-                members.append(f"- {member['osrs_ign']}")
+    # Sort the teams alphabetically by team name
+    sorted_teams = sorted(event_teams.items())
 
-        leader_str = f"**Leader(s)**:\n{''.join(leaders)}" if leaders else ""
-        member_str = f"**Member(s)**:\n{''.join(members)}" if members else ""
+    for team_name, team_data in sorted_teams:
+        leaders = [member['osrs_ign'] for member in team_data["members"] if member["role"] == "leader"]
+        members = [member['osrs_ign'] for member in team_data["members"] if member["role"] != "leader"]
+
+        # Sort the leader and member lists alphabetically
+        # leaders.sort()
+        members.sort()
+
+        leader_str = f"**Leader(s)**:\n" + "\n".join([f"- {leader}" for leader in leaders]) if leaders else ""
+        member_str = f"**Member(s)**:\n" + "\n".join([f"- {member}" for member in members]) if members else ""
 
         team_members = f"{leader_str}\n{member_str}".strip()
 
@@ -2755,7 +2790,7 @@ async def event_teams_view(interaction: discord.Interaction, event_name: str):
         except ValueError:
             team_color = discord.Color.default()
 
-        embed = discord.Embed(title=team_name, description=team_members, color=team_color)
+        embed = discord.Embed(title="Team " + team_name, description=team_members, color=team_color)
         embeds.append(embed)
 
     await interaction.response.send_message(embeds=embeds)
@@ -3031,9 +3066,9 @@ async def draw_board(interaction: discord.Interaction, event_name: str):
         await interaction.response.send_message(file=file)
 
     elif event_data["type"] == "snakes_ladders":
-        board = game_data["board"]
-        snakes = game_data["snakes"]
-        ladders = game_data["ladders"]
+        board = game_data.get("board")
+        snakes = game_data.get("snakes", [])
+        ladders = game_data.get("ladders", [])
 
         # Get the teams for the event
         teams = client.teams.get(event_name, {})
@@ -3042,14 +3077,19 @@ async def draw_board(interaction: discord.Interaction, event_name: str):
         pawns = []
 
         for team_name, team_data in teams.items():
-
             team_color = team_data.get("color", (245, 245, 220))  # Get color from team data, default to light beige
-            pawn_history = game_data.get("pawns", {}).get(team_name, [0]) #get the pawns history or start with [0]
+            pawn_info = game_data.get("pawns", {}).get(team_name)
 
-            if isinstance(pawn_history, int):
-                pawn_history = [pawn_history]
-
-            pawn_position = pawn_history[-1] #get the latest position
+            if pawn_info and isinstance(pawn_info, dict) and "positions" in pawn_info:
+                pawn_history = pawn_info["positions"]
+                if isinstance(pawn_history, list) and pawn_history:
+                    pawn_position = pawn_history[-1]  # get the latest position
+                else:
+                    logging.warning(f"Pawn history for team {team_name} in {event_name} is not a non-empty list: {pawn_history}. Defaulting to 0.")
+                    pawn_position = 0
+            else:
+                logging.warning(f"Pawn info missing or malformed for team {team_name} in {event_name}: {pawn_info}. Defaulting to position 0.")
+                pawn_position = 0
 
             pawns.append({
                 "name": team_name,
@@ -3153,99 +3193,131 @@ async def list_snakes_ladders_tasks(interaction: discord.Interaction, event_name
 @app_commands.describe(event_name="The name of the Snakes and Ladders event.")
 @app_commands.autocomplete(event_name=snakes_ladders_event_autocomplete)
 async def roll_dice(interaction: discord.Interaction, event_name: str):
-    logging.info(f"User {interaction.user.name} used /roll_dice for {event_name}.")
-    if event_name not in client.events:
-        await interaction.response.send_message("Event not found.", ephemeral=True)
-        return
+  logging.info(f"User {interaction.user.name} used /roll_dice for {event_name}.")
+  if event_name not in client.events:
+    await interaction.response.send_message("Event not found.", ephemeral=True)
+    return
 
-    event_data = client.events[event_name]
-    if event_data["type"] != "snakes_ladders":
-        await interaction.response.send_message("This command only works for Snakes and Ladders events.", ephemeral=True)
-        return
+  event_data = client.events[event_name]
+  if event_data["type"] != "snakes_ladders":
+    await interaction.response.send_message("This command only works for Snakes and Ladders events.", ephemeral=True)
+    return
 
-    game_uuid = event_data["game_id"]
-    if game_uuid not in client.games:
-        await interaction.response.send_message("Game data not found.", ephemeral=True)
-        return
+  game_uuid = event_data["game_id"]
+  if game_uuid not in client.games:
+    await interaction.response.send_message("Game data not found.", ephemeral=True)
+    return
 
-    game_data = client.games[game_uuid]["game_data"]
-    teams = client.teams.get(event_name, {})
+  game_data = client.games[game_uuid]["game_data"]
+  teams = client.teams.get(event_name, {})
 
-    if not teams:
-        await interaction.response.send_message("No teams found for this event.", ephemeral=True)
-        return
+  if not teams:
+    await interaction.response.send_message("No teams found for this event.", ephemeral=True)
+    return
 
-    # Check if the user is on a team and is a leader
-    user_team = None
-    for team_name, team_data in teams.items():
-        for member in team_data["members"]:
-            user_team = team_name
-            break
-        if user_team:
-            break
+  # Check if the user is on a team and is a leader
+  user_team = None
+  for team_name, team_data in teams.items():
+    for member in team_data["members"]:
+      if member["discord_user"] == interaction.user.name and member["role"] == "leader":
+        user_team = team_name
+        break
+    if user_team:
+      break
 
-    if not user_team:
-        await interaction.response.send_message("You are not a team leader for this event.", ephemeral=True)
-        return
+  if not user_team:
+    await interaction.response.send_message("You are not a team leader for this event.", ephemeral=True)
+    return
 
-    current_team_name = user_team  # Use the user team name
+  current_team_name = user_team # Use the user team name
 
-    # Roll the dice
-    dice_roll = random.randint(1, 6)
+  # Roll the dice
+  dice_roll = random.randint(1, 6)
 
-    # Update pawn position
-    pawn_data = game_data.get("pawns", {}).get(current_team_name, {"positions": [0], "reverts": []})  # Get pawn data or initialize
-    pawn_positions = pawn_data["positions"]
-    pawn_reverts = pawn_data["reverts"]
+  # Update pawn position
+  pawn_data = game_data.get("pawns", {}).get(current_team_name)
+  if not isinstance(pawn_data, dict):
+    logging.error(f"Pawn data for {current_team_name} is not a dictionary: {pawn_data}. Resetting to default.")
+    pawn_data = {"positions": [0], "reverts": []}
+  elif pawn_data is None:
+    pawn_data = {"positions": [0], "reverts": []}
 
-    current_position = pawn_positions[-1]  # Get the latest position
-    new_position = current_position + dice_roll
+  pawn_positions = pawn_data.get("positions")
+  pawn_reverts = pawn_data.get("reverts")
 
-    # Check for snakes and ladders
-    snakes = game_data.get("snakes", [])
-    ladders = game_data.get("ladders", [])
+  if not isinstance(pawn_positions, list):
+    logging.error(f"Pawn positions for {current_team_name} is not a list: {pawn_positions}. Resetting to [0].")
+    pawn_positions = [0]
 
-    snake_or_ladder_message = ""
+  current_position = pawn_positions[-1] # Get the latest position
+  new_position = current_position + dice_roll
 
-    for start, end in snakes:
-        if new_position == start:
-            new_position = end
-            snake_or_ladder_message = "Oh no, oh no! You landed on a snake :snake: and slid down."
-            break
+  winner = False
+  if new_position >= 99:
+    new_position = 99
+    winner = True
 
-    for start, end in ladders:
-        if new_position == start:
-            new_position = end
-            snake_or_ladder_message = "Yay! You landed on a ladder :ladder: and climbed up."
-            break
+    # Initialize the winners list if it doesn't exist
+    if "winners" not in game_data:
+      game_data["winners"] = []
 
-    # Update pawn position in game data
-    if "pawns" not in game_data:
-        game_data["pawns"] = {}
+    # Add the current team to the winners list if they aren't already there
+    if current_team_name not in game_data["winners"]:
+      game_data["winners"].append(current_team_name)
 
-    game_data["pawns"][current_team_name] = {"positions": pawn_positions + [new_position], "reverts": pawn_reverts}  # Update with new position
+  # Check for snakes and ladders
+  snakes = game_data.get("snakes", [])
+  ladders = game_data.get("ladders", [])
 
-    client.save_games()
+  snake_or_ladder_message = ""
 
-    # Get the team color
-    team_data = teams[current_team_name]
-    team_color_hex = team_data.get("color", "#FFFFFF")  # Default to white if no color
-    team_color = discord.Color.from_str(team_color_hex)
+  for start, end in snakes:
+    if new_position == start and not winner: # Don't apply snakes if already won
+      new_position = end
+      snake_or_ladder_message = "Oh no, oh no! You landed on a snake :snake: and slid down."
+      break
 
-    description = f"Rolled a {dice_roll} and moved from {current_position + 1} to {new_position + 1}."
-    if snake_or_ladder_message:
-        description += f"\n{snake_or_ladder_message}"
+  for start, end in ladders:
+    if new_position == start and not winner: # Don't apply ladders if already won
+      new_position = end
+      snake_or_ladder_message = "Yay! You landed on a ladder :ladder: and climbed up."
+      break
 
-    # Create the embed
-    embed = discord.Embed(
-        title=f":game_die: {current_team_name} Dice Roll",
-        description=description,
-        color=team_color,
-    )
+  # Update pawn position in game data
+  if "pawns" not in game_data:
+    game_data["pawns"] = {}
 
-    await interaction.response.send_message(embed=embed, ephemeral=False)
+  game_data["pawns"][current_team_name] = {"positions": pawn_positions + [new_position], "reverts": pawn_reverts} # Update with new position
 
-    await draw_and_send_board(interaction, game_data, teams)
+  client.save_games()
+
+  # Get the team color
+  team_data = teams[current_team_name]
+  team_color_hex = team_data.get("color", "#FFFFFF") # Default to white if no color
+  team_color = discord.Color.from_str(team_color_hex)
+
+  description = f"Rolled a {dice_roll} and moved from {current_position + 1} to {new_position + 1}."
+  if snake_or_ladder_message:
+    description += f"\n{snake_or_ladder_message}"
+
+  # Create the embed
+  embed = discord.Embed(
+    title=f":game_die: {current_team_name} Dice Roll",
+    description=description,
+    color=team_color,
+  )
+
+  if winner:
+    embed.add_field(name=":trophy: Winner!", value=f"{current_team_name} has reached the final tile!", inline=False)
+
+    # Display the current winners order
+    if "winners" in game_data and game_data["winners"]:
+      winners_list = "\n".join([f"{i+1}. {team}" for i, team in enumerate(game_data["winners"])])
+      embed.add_field(name="Current Winners Order:", value=winners_list, inline=False)
+
+  await interaction.response.send_message(embed=embed, ephemeral=False)
+
+  await draw_and_send_board(interaction, game_data, teams)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 

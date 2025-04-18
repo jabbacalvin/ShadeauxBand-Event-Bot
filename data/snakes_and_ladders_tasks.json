@@ -2,7 +2,7 @@
   { "task": "Obtain an Unsired from Abyssal Sire", "difficulty": "Easy" },
   { "task": "Obtain any Alchemical Hydra unique", "difficulty": "Easy" },
   {
-    "task": "Obtain 3 Amoxliatl unique",
+    "task": "Obtain 3 Amoxliatl uniques",
     "difficulty": "Easy"
   },
   { "task": "Obtain any Araxxor unique", "difficulty": "Easy" },
@@ -58,7 +58,6 @@
   { "task": "Obtain 2 Kalphite Queen uniques", "difficulty": "Medium" },
   { "task": "Obtain any King Black Dragon unique", "difficulty": "Medium" },
   { "task": "Obtain 3 Kraken uniques", "difficulty": "Medium" },
-  { "task": "25x Last Man Standing points", "difficulty": "Medium" },
   { "task": "Obtain any Kree'arra unique", "difficulty": "Medium" },
   { "task": "Obtain any K'ril Tsutsaroth unique", "difficulty": "Medium" },
   { "task": "Obtain 2 Leviathan uniques", "difficulty": "Medium" },
@@ -123,7 +122,7 @@
   { "task": "Obtain 4 Zulrah uniques", "difficulty": "Hard" },
   { "task": "Obtain 2 Chambers of Xeric uniques", "difficulty": "Hard" },
   { "task": "Obtain 2 Theatre of Blood uniques", "difficulty": "Hard" },
-  { "task": "Obtain 2 Tombs of Amascut unique", "difficulty": "Hard" },
+  { "task": "Obtain 2 Tombs of Amascut uniques", "difficulty": "Hard" },
   { "task": "Obtain 3 Demonic Gorilla uniques", "difficulty": "Hard" },
   { "task": "Obtain 3 Tormented Demon uniques", "difficulty": "Hard" },
   {
@@ -168,8 +167,8 @@
   { "task": "Obtain 4 Vet'ion or Calvar'ion uniques", "difficulty": "Expert" },
   { "task": "Obtain 6 Vorkath uniques", "difficulty": "Expert" },
   { "task": "Obtain 4 Whisperer uniques", "difficulty": "Expert" },
-  { "task": "Obtain 6 Zulrah uniques", "difficulty": "Expert" },
+  { "task": "Obtain 4 Zulrah uniques", "difficulty": "Expert" },
   { "task": "Obtain 3 Chambers of Xeric uniques", "difficulty": "Expert" },
   { "task": "Obtain 3 Theatre of Blood uniques", "difficulty": "Expert" },
-  { "task": "Obtain 3 Tombs of Amascut unique", "difficulty": "Expert" }
+  { "task": "Obtain 3 Tombs of Amascut uniques", "difficulty": "Expert" }
 ]
